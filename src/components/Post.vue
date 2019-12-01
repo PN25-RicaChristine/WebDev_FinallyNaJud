@@ -33,7 +33,7 @@
 
           <!-- Post Button -->
            <v-btn color="secondary" outlined id="postbutton" @click="dialog = false">Cancel</v-btn>
-          <v-btn color="secondary"  id="postbutton" >Post</v-btn>
+          <v-btn color="secondary"  id="postbutton" @click="upload">Post</v-btn>
         </v-card-actions>
       </div>
        
@@ -57,42 +57,43 @@
 
 <script>
 export default {
+   props: {
+      description: String,
+      files: [],
+      rating: Number,
+      time: Date
+    },
   data() {
     return {
-        dialog: false, 
-      post: {
-        
-        description: ""
-      }
+      id: 0,
+      dialog: false
     };
   },
   methods: {
-    handleFileUpload() {
-      try {
-        this.post.files[0] = this.$refs.myFiles.files;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    upload_post() {
-      var upload = new FormData();
-      upload.append("files", this.post.files);
-      console.log(upload);
+    upload(){
+      var object = {"id":this.id++, "description": this.description, "rating": 0}
+      this.$emit("upload_post", object )
+      console.log(object)
+    }
+    // handleFileUpload() {
+    //   try {
+    //     this.post.files[0] = this.$refs.myFiles.files;
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
+    // upload_post() {
+    //   var upload = new FormData();
+    //   upload.append("files", this.post.files);
+    //   console.log(upload);
       // this.post.id = this.posts.length;
       // this.posts.push(this.post);
       // axios
       //   .post(url, upload)
       //   .then(response => {})
       //   .catch(err => {});
-    }
+  
   }
+}
 
-  //   props: {
-  //     id: Number,
-  //     description: String,
-  //     files: [],
-  //     rating: Number,
-  //     time: Date
-  //   }
-};
 </script>
