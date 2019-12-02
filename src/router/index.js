@@ -34,7 +34,7 @@ const routes = [
     path: "/dashboard",
     name: "dashboard",
     component: Dashboard,
-    beforeEnter: auth
+    // beforeEnter: auth
   },
   {
     path: "/bloggerdashboard",
@@ -58,7 +58,7 @@ const routes = [
     path: "/myaccount",
     name: "myaccount",
     component: MyAccount,
-    beforeEnter: auth
+    // beforeEnter: auth
   },
 ]
 
