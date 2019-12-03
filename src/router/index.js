@@ -4,6 +4,7 @@ import VueRouter from "vue-router";
 import Signup from "@/view/Register";
 import Login from "@/view/Login";
 import Dashboard from "@/view/Dashboard";
+import BloggerDashboard from "@/view/BloggerDashboard";
 import Home from "@/view/Home";
 import MyAccount from "@/view/MyAccount"
 import store from '../store'
@@ -43,7 +44,7 @@ const routes = [
   {
     path: "/bloggerdashboard",
     name: "bdashboard",
-    component: Dashboard,
+    component: BloggerDashboard,
     beforeEnter: auth,
     tokenRequired : true
   },

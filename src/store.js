@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -37,6 +38,11 @@ export default new Vuex.Store({
                         const token = resp.data.token
                         const user = resp.data.user
                         console.log(resp)
+                        if (resp.data == "Account not found!" || resp.data == "Password is incorrect!") {
+                            alert(resp.data)
+                        }else{
+                            alert("You are now logged in!")
+                        }
                         if (token) {
                             localStorage.setItem('jwt', token)
                         }
@@ -61,6 +67,8 @@ export default new Vuex.Store({
                         const token = resp.data.token
                         const user = resp.data.user
                         console.log(resp)
+                        alert(resp.data)
+
                         if (token) {
                             localStorage.setItem('jwt', token)
                         }

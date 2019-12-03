@@ -161,10 +161,16 @@ export default {
         };
         this.$store
           .dispatch("registerAsync", data)
-          .then(() => this.$router.push("/login"))
+          .then((response) => {
+            if(response.data == "Username is already taken."||response.data == "Email is already taken."){
+              this.$router.push("/register")
+            } else {
+              this.$router.push("/login")
+            }
+          })
           .catch(err => console.log(err));
       }else{
-       alert("naa kay sayop!")
+       alert("All fields required!")
       }
     },
     redirect(router) {

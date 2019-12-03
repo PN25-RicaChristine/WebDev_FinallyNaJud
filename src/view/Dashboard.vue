@@ -10,7 +10,7 @@
           <v-list-item>
             <v-img
               id="image"
-              src="https://randomuser.me/api/portraits/women/85.jpg"
+              src="https://www.stickpng.com/assets/images/585e4bf3cb11b227491c339a.png"
               height="200"
               max-width="200"
             ></v-img>
@@ -21,8 +21,8 @@
             class="title"
           >
             <v-list-item-content>
-              <v-list-item-title>Sandra Adams</v-list-item-title>
-              <v-list-item-subtitle>User</v-list-item-subtitle>
+              <v-list-item-title>{{name}}</v-list-item-title>
+              <v-list-item-subtitle>{{type}}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -140,6 +140,8 @@ export default {
   },
   data() {
     return {
+      name:"Full Name",
+      type: "User",
       dialog: false,
       post: {
         files: [],
