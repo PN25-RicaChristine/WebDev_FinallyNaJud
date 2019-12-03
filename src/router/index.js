@@ -24,41 +24,49 @@ const routes = [
     path: "/register",
     name: "signup",
     component: Signup,
+    tokenRequired : false
   },
   {
     path: "/login",
     name: "login",
     component: Login,
+    tokenRequired : false
   },
   {
     path: "/dashboard",
     name: "dashboard",
     component: Dashboard,
-    // beforeEnter: auth
+    beforeEnter: auth,
+    tokenRequired : true
+
   },
   {
     path: "/bloggerdashboard",
     name: "bdashboard",
     component: Dashboard,
-    beforeEnter: auth
+    beforeEnter: auth,
+    tokenRequired : true
   },
   {
     path: "/",
     name: "home",
     component: Home,
+    tokenRequired : false
 
   },
   {
     path: "/home",
     name: "home",
     component: Home,
+    tokenRequired : false
 
   },
   {
     path: "/myaccount",
     name: "myaccount",
     component: MyAccount,
-    // beforeEnter: auth
+    beforeEnter: auth,
+    tokenRequired : true
   },
 ]
 

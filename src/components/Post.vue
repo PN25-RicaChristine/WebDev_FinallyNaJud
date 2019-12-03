@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="500" >
       <template v-slot:activator="{ on }">
-        <v-btn color="black"  outlined dark v-on="on" id="createPostbtn">Create Post</v-btn>
+        <v-btn color="black"  outlined dark v-on="on" id="createPostbtn" v-show="$route.path === '/bloggerdashboard'">Create Post</v-btn>
       </template>
       <v-card class="px-2">
          <div>
@@ -74,24 +74,8 @@ export default {
       var object = {"id":this.id++, "description": this.description, "rating": 0}
       this.$emit("upload_post", object )
       console.log(object)
+      this.dialog = false;
     }
-    // handleFileUpload() {
-    //   try {
-    //     this.post.files[0] = this.$refs.myFiles.files;
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // },
-    // upload_post() {
-    //   var upload = new FormData();
-    //   upload.append("files", this.post.files);
-    //   console.log(upload);
-      // this.post.id = this.posts.length;
-      // this.posts.push(this.post);
-      // axios
-      //   .post(url, upload)
-      //   .then(response => {})
-      //   .catch(err => {});
   
   }
 }

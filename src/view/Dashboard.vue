@@ -152,14 +152,14 @@ export default {
       ],
       posts: [
         {
-          id: 4,
+          id: 1,
           files: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
           description:
             "Visit ten places on our planet that are undergoing the biggest changes today.",
           rating: 0
         },
         {
-          id: 5,
+          id: 2,
           files: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
           description:
             "Visit ten places on our planet that are undergoing the biggest changes today.",
