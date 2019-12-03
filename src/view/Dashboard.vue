@@ -1,10 +1,7 @@
 <template>
   <div>
     <v-row>
-      <v-col
-        cols="auto"
-        lg="3"
-      >
+      <v-col cols="auto" lg="3">
         <v-list>
           <!-- sidebar -->
           <v-list-item>
@@ -15,11 +12,7 @@
               max-width="200"
             ></v-img>
           </v-list-item>
-          <v-list-item
-            link
-            two-line
-            class="title"
-          >
+          <v-list-item link two-line class="title">
             <v-list-item-content>
               <v-list-item-title>Sandra Adams</v-list-item-title>
               <v-list-item-subtitle>User</v-list-item-subtitle>
@@ -27,14 +20,8 @@
           </v-list-item>
         </v-list>
         <v-divider></v-divider>
-        <v-list
-          v-for="item in items"
-          :key="item.title"
-        >
-          <v-list-item
-            link
-            @click="redirect(item.href)"
-          >
+        <v-list v-for="item in items" :key="item.title">
+          <v-list-item link @click="redirect(item.href)">
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-icon>
@@ -49,8 +36,8 @@
         <!-- Tinuod nga post ni diria -->
         <div class="uploaded_post">
           <div>
-            <br>
-            <br>
+            <br />
+            <br />
             <Post @upload_post="upload_post" />
           </div>
         </div>
@@ -60,26 +47,6 @@
         <Uploaded_Post :posts="this.posts" />
 
         <!-- Comment Dialog here!! -->
-        <v-dialog
-          v-model="dialog"
-          max-width="500px"
-        >
-          <v-card class="px-2">
-            <br>
-            <v-text-field
-              outlined
-              label="Comment here..."
-            ></v-text-field>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn
-                text
-                color="secondary"
-                @click="dialog = false"
-              >Comment</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
       </v-col>
     </v-row>
   </div>
@@ -156,14 +123,16 @@ export default {
           files: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
           description:
             "Visit ten places on our planet that are undergoing the biggest changes today.",
-          rating: 0
+          rating: 0,
+          category: '',
         },
         {
           id: 2,
           files: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
           description:
             "Visit ten places on our planet that are undergoing the biggest changes today.",
-          rating: 0
+          rating: 0,
+          category: ''
         }
       ]
     };
@@ -176,9 +145,9 @@ export default {
       this.changeColor = "deep-orange";
     },
     upload_post(object) {
-      this.$on("upload_post", object)
+      this.$on("upload_post", object);
       this.posts.push(object);
-      console.log("yo")
+      console.log("yo");
     }
   }
 };

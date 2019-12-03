@@ -15,9 +15,7 @@
           <v-list-item link two-line class="title">
             <v-list-item-content>
               <v-list-item-title>Blogger Name</v-list-item-title>
-              <v-list-item-subtitle>
-                Blogger
-              </v-list-item-subtitle>
+              <v-list-item-subtitle>Blogger</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -35,74 +33,29 @@
         </v-list>
       </v-col>
       <v-col cols="8">
-        <v-card class="mx-auto" max-width="800">
+        <!-- Create Post -->
+
+        <div class="uploaded_post">
           <div>
-            <!-- Create Post -->
-            <v-card-title id="title">Create Vlog</v-card-title>
+            <br />
+            <br />
+            <Post @upload_post="upload_post" />
           </div>
-          <div>
-            <div id="text">
-              <v-textarea v-model="description" outlined name="input-7-4" label="Description..."></v-textarea>
-            </div>
-            <v-card-actions>
-              <v-file-input
-                v-model="post.files"
-                color="deep-purple accent-4"
-                counter
-                placeholder="Add Photo"
-                prepend-icon="mdi-camera"
-                :show-size="1000"
-                accept="image/*"
-                id="fileinput"
-                v-on:change="handleFileUpload"
-                ref="myFiles"
-              ></v-file-input>
-
-              <v-spacer></v-spacer>
-
-              <!-- Post Button -->
-              <v-btn color="info" id="postbutton" @click="upload_post">Post</v-btn>
-            </v-card-actions>
-          </div>
-        </v-card>
-
+        </div>
         <!-- Posts -->
-        <!-- <div v-for="(item, index) in this.createPost" :key="index"> -->
-        <v-card max-width="800" v-for="(post,x) in posts" :key="x" class="mx-auto" id="post">
-          <v-list-item>
-            <v-list-item-avatar color="grey"></v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title class="headline">Jessavel Toring</v-list-item-title>
-              <v-list-item-subtitle v-model="time">time here</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-
-          <!-- <v-card-text>{{post.description}}</v-card-text> -->
-
-          <v-card-text>{{description}}</v-card-text>
-
-          <v-img :src="post.files" height="194"></v-img>
-          <!-- Posts Actions -->
-          <v-card-actions>
-            <v-btn icon>
-              <v-icon>mdi-star</v-icon>
-            </v-btn>
-            <v-btn icon>
-              <v-icon>mdi-comment</v-icon>
-            </v-btn>
-            <v-spacer></v-spacer>
-            <div class="text-center">
-              <v-rating v-model="post.rating" background-color="yellow" color="yellow" x-large></v-rating>
-            </div>
-          </v-card-actions>
-        </v-card>
-        <!-- </div> -->
+        <Uploaded_Post :posts="this.posts" />
       </v-col>
     </v-row>
   </div>
 </template>
 <script>
+import Post from "components/Post.vue";
+import Uploaded_Post from "components/Uploaded_Posts.vue";
 export default {
+  components: {
+    Uploaded_Post,
+    Post
+  },
   data() {
     return {
       description: "",
@@ -111,26 +64,28 @@ export default {
         rating: 0
       },
       items: [
-        { href: "/dashboard", title: "Home", icon: "dashboard" },
-        { href: "/login", title: "My Account", icon: "account_circle" },
+        { href: "/bloggerdashboard", title: "Home", icon: "dashboard" },
+        { href: "/myaccount", title: "My Account", icon: "account_circle" },
         { href: "/login", title: "Logout", icon: "logout" }
+      ],
+      posts: [
+        {
+          id: 1,
+          files: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
+          description:
+            "Visit ten places on our planet that are undergoing the biggest changes today.",
+          rating: 0,
+          category: ''
+        },
+        {
+          id: 2,
+          files: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
+          description:
+            "Visit ten places on our planet that are undergoing the biggest changes today.",
+          rating: 0,
+          category: ''
+        }
       ]
-      // posts: [
-      //   {
-      //     id: 1,
-      //     files: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
-      //     description:
-      //       "Visit ten places on our planet that are undergoing the biggest changes today.",
-      //     rating: 0
-      //   },
-      //   {
-      //     id: 2,
-      //     files: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
-      //     description:
-      //       "Visit ten places on our planet that are undergoing the biggest changes today.",
-      //     rating: 0
-      //   }
-      // ]
     };
   },
   methods: {

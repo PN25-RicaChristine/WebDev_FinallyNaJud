@@ -5,7 +5,7 @@
         <v-list-item-avatar color="grey"></v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title class="headline">Jessavel Toring</v-list-item-title>
-          <v-list-item-subtitle v-model="time">time here</v-list-item-subtitle>
+          <v-list-item-subtitle v-model="time" >time here</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
@@ -14,25 +14,21 @@
       <v-img :src="post.files" height="194"></v-img>
 
       <!-- Like actions -->
+
       <v-card-actions>
-        <v-chip-group multiple column>
-          <v-chip outline>
-            <v-btn text icon @click="type='host'">
-              <v-icon color="blue">mdi-thumb-up</v-icon>
-            </v-btn>
+        <v-chip-group multiple active-class="primary--text">
+          <v-chip v-for="tag in tags" :key="tag">
+            <v-icon v-for="tag in tags" :key="tag" v-model="like">{{ tag }}</v-icon>
           </v-chip>
 
-          <v-chip outline>
-            <v-btn text icon @click="type='host'">
+          <v-chip flat>
+            <v-btn text icon @click="type">
               <v-icon @click="dialog = !dialog">mdi-comment</v-icon>
             </v-btn>
           </v-chip>
         </v-chip-group>
 
         <!-- Comment actions -->
-        <!-- <v-btn icon>
-          <v-icon @click="dialog = !dialog" color="warning">mdi-comment</v-icon>
-        </v-btn>-->
         <v-spacer></v-spacer>
         <!-- Ratings -->
         <div class="text-center">
@@ -66,8 +62,10 @@ export default {
   props: ["posts"],
   data() {
     return {
-      dialog: false
+      dialog: false,
+      tags: ["mdi-thumb-up"],
     };
-  }
+  },
+  methods: {}
 };
 </script>

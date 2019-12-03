@@ -1,31 +1,13 @@
 <template>
-  <v-img
-    class="white--text align-end"
-    height="100px"
-    src="@/assets/back1.jpg"
-  >
+  <v-img class="white--text align-end" height="100px" src="@/assets/back1.jpg">
     <div>
-      <v-card
-        id="card"
-        class="mx-auto"
-        max-width="500"
-      >
+      <v-card id="card" class="mx-auto" max-width="500">
         <div id="title">
-          <v-avatar
-            id="circle"
-            size="150"
-          >
-            <v-icon
-              dark
-              size="600%"
-            >mdi-account-plus</v-icon>
+          <v-avatar id="circle" size="150">
+            <v-icon dark size="600%">mdi-account-plus</v-icon>
           </v-avatar>
         </div>
-        <v-form
-          ref="form"
-          id="form"
-          lazy-validation
-        >
+        <v-form ref="form" id="form" lazy-validation>
           <center>
             <v-text-field
               v-model="credentials.name"
@@ -76,11 +58,7 @@
               label="User Type"
               required
             />
-            <v-btn
-              id="submit"
-              class="secondary justify-center"
-              @click="validate"
-            >Register</v-btn>
+            <v-btn id="submit" class="secondary justify-center" @click="validate">Register</v-btn>
             <v-card-text>
               "Already have an account?
               <a @click="redirect('/login')">Log in</a>!"
@@ -125,6 +103,7 @@
 
 <script>
 import AUTH from "@/auth";
+import swal from 'sweetalert';
 export default {
   data() {
     return {
@@ -152,19 +131,20 @@ export default {
   methods: {
     validate() {
       if (this.$refs.form.validate()) {
+        swal("Successfully login!", "Nice one", "success");
         let data = {
           name: this.credentials.name,
           username: this.credentials.uname,
           password: this.credentials.password,
           email: this.credentials.email,
           userType: this.credentials.type,
-        };
+        }; 
         this.$store
           .dispatch("registerAsync", data)
           .then(() => this.$router.push("/login"))
           .catch(err => console.log(err));
       }else{
-       alert("naa kay sayop!")
+       swal("Inputs are required!", " ", "error");
       }
     },
     redirect(router) {
