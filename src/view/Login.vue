@@ -83,7 +83,9 @@ export default {
         this.$store
           .dispatch("loginAsync", this.credentials )
           .then((response) => {
-            if(response){
+            if(response.data.userType == "Blogger"){
+              this.$router.push("/bloggerdashboard")
+            } else {
               this.$router.push("/dashboard")
             }
           })
