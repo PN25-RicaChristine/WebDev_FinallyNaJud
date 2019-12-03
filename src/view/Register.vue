@@ -98,7 +98,7 @@
   background: linear-gradient(to bottom, #cd853f 0%, #ffffff 100%);
   border-radius: 25px;
   border: solid black 1px;
-  bottom: 130px;
+  bottom: 30px;
 }
 #title {
   position: absolute;

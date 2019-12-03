@@ -117,7 +117,7 @@ export default {
 #card {
   float: center;
   position: relative;
-  margin-bottom: 230px;
+  margin-bottom: 140px;
   background: linear-gradient(to bottom, #cd853f 0%, #ffffff 100%);
   border-radius: 25px;
   border: double rgb(24, 14, 14) 1px;
