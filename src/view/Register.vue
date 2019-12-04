@@ -131,7 +131,7 @@ export default {
   methods: {
     validate() {
       if (this.$refs.form.validate()) {
-        swal("Successfully login!", "Nice one", "success");
+        
         let data = {
           name: this.credentials.name,
           username: this.credentials.uname,
@@ -141,7 +141,15 @@ export default {
         }; 
         this.$store
           .dispatch("registerAsync", data)
-          .then(() => this.$router.push("/login"))
+          .then((response) => {
+            if(response.data == "Username is already taken."||response.data == "Email is already taken."){
+              swal(response.data, " ", "error");
+              this.$router.push("/register")
+            } else {
+              swal("Successfully Registered!", " ", "success");
+              this.$router.push("/login")
+            }
+          })
           .catch(err => console.log(err));
       }else{
        swal("Inputs are required!", " ", "error");

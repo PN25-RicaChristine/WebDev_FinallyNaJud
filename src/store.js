@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -37,6 +38,9 @@ export default new Vuex.Store({
                         const token = resp.data.token
                         const user = resp.data.user
                         console.log(resp)
+                        console.log(user)
+                      
+
                         if (token) {
                             localStorage.setItem('jwt', token)
                         }
@@ -61,6 +65,7 @@ export default new Vuex.Store({
                         const token = resp.data.token
                         const user = resp.data.user
                         console.log(resp)
+            
                         if (token) {
                             localStorage.setItem('jwt', token)
                         }

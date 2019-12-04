@@ -46,6 +46,7 @@ export default {
   data: () => {
     AUTH;
     return {
+      // users: [],
       message: "",
       credentials: {
         uname: "",
@@ -59,6 +60,13 @@ export default {
       }
     };
   },
+  // mounted() {
+  //   this.axios.get("http://localhost:3000/api/users/").then(response => {
+  //     for (var i in response.data.data) {
+  //       this.users.push(response.data.data[i]);
+  //     }
+  //   });
+  // },
 
   methods: {
     submit: function() {
@@ -66,13 +74,18 @@ export default {
         this.$store
           .dispatch("loginAsync", this.credentials)
           .then(response => {
-            if (response.data.userType == "Blogger") {
-              swal("Successfully login!", "Nice one", "success");
+              if (response.data == "Account not found!" || response.data == "Password is incorrect!") {
+                swal(response.data, " ", "error");
+                }else{
+ if (response.data.userType == "Blogger") {
+              swal("Welcome Blogger!", " ", "success");
               this.$router.push("/bloggerdashboard");
             } else {
-              swal("Successfully login!", "Nice one", "success");
+              swal("Welcome User!", " ", "success");
               this.$router.push("/dashboard");
             }
+                        }
+           
           })
           .catch(err => console.log(err));
       } else {
