@@ -146,7 +146,7 @@ export default {
               swal(response.data, " ", "error");
               this.$router.push("/register")
             } else {
-              swal("Successfully Registered!", "Nice one", "success");
+              swal("Successfully Registered!", " ", "success");
               this.$router.push("/login")
             }
           })

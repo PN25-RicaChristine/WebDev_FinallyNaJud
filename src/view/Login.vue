@@ -78,10 +78,10 @@ export default {
                 swal(response.data, " ", "error");
                 }else{
  if (response.data.userType == "Blogger") {
-              swal("Welcome Blogger!", "Nice one", "success");
+              swal("Welcome Blogger!", " ", "success");
               this.$router.push("/bloggerdashboard");
             } else {
-              swal("Welcome User!", "Nice one", "success");
+              swal("Welcome User!", " ", "success");
               this.$router.push("/dashboard");
             }
                         }
