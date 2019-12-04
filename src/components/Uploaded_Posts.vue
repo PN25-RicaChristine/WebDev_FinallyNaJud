@@ -5,24 +5,24 @@
         <v-list-item-avatar color="grey"></v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title class="headline">Jessavel Toring</v-list-item-title>
-          <v-list-item-subtitle v-model="time" >time here</v-list-item-subtitle>
+          <v-list-item-subtitle >time here</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
       <v-card-text>{{post.description}}</v-card-text>
 
-      <v-img :src="post.files" height="194"></v-img>
+      <v-img :src="post.files" height="300"></v-img>
 
       <!-- Like actions -->
 
       <v-card-actions>
         <v-chip-group multiple active-class="primary--text">
           <v-chip v-for="tag in tags" :key="tag">
-            <v-icon v-for="tag in tags" :key="tag" v-model="like">{{ tag }}</v-icon>
+            <v-icon v-for="tag in tags" :key="tag">{{ tag }}</v-icon>
           </v-chip>
 
           <v-chip flat>
-            <v-btn text icon @click="type">
+            <v-btn text icon>
               <v-icon @click="dialog = !dialog">mdi-comment</v-icon>
             </v-btn>
           </v-chip>

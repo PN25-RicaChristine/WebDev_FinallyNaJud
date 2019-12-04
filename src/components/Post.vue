@@ -25,7 +25,6 @@
             :show-size="1000"
             accept="image/*"
             id="fileinput"
-            v-on:change="handleFileUpload"
             ref="myFiles"
           ></v-file-input>
 

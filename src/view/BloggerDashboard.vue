@@ -48,75 +48,7 @@
     </v-row>
   </div>
 </template>
-<script>
-import Post from "components/Post.vue";
-import Uploaded_Post from "components/Uploaded_Posts.vue";
-export default {
-  components: {
-    Uploaded_Post,
-    Post
-  },
-  data() {
-    return {
-      description: "",
-      post: {
-        files: [],
-        rating: 0
-      },
-      items: [
-        { href: "/bloggerdashboard", title: "Home", icon: "dashboard" },
-        { href: "/myaccount", title: "My Account", icon: "account_circle" },
-        { href: "/login", title: "Logout", icon: "logout" }
-      ],
-      posts: [
-        {
-          id: 1,
-          files: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
-          description:
-            "Visit ten places on our planet that are undergoing the biggest changes today.",
-          rating: 0,
-          category: ''
-        },
-        {
-          id: 2,
-          files: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
-          description:
-            "Visit ten places on our planet that are undergoing the biggest changes today.",
-          rating: 0,
-          category: ''
-        }
-      ]
-    };
-  },
-  methods: {
-    handleFileUpload() {
-      try {
-        this.post.files[0] = this.$refs.myFiles.files;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    upload_post() {
-      var upload = new FormData();
-      upload.append("files", this.post.files);
-      console.log(upload);
-      // this.post.id = this.posts.length;
-      // this.posts.push(this.post);
-      // axios
-      //   .post(url, upload)
-      //   .then(response => {})
-      //   .catch(err => {});
-    },
-    redirect(pathname) {
-      this.$router.push({ path: pathname });
-    }
-    // createPost(){
-    //    var object = {
 
-    //    }
-  }
-};
-</script>
 <style scoped>
 #image {
   float: center;
@@ -159,3 +91,64 @@ export default {
   margin-left: 2%;
 }
 </style>
+
+
+<script>
+import Post from "components/Post.vue";
+import Uploaded_Post from "components/Uploaded_Posts.vue";
+export default {
+  components: {
+    Uploaded_Post,
+    Post
+  },
+  data() {
+    return {
+      description: "",
+      post: {
+        files: [],
+        rating: 0
+      },
+      items: [
+        { href: "/bloggerdashboard", title: "Home", icon: "dashboard" },
+        { href: "/myaccount", title: "My Account", icon: "account_circle" },
+        { href: "/login", title: "Logout", icon: "logout" }
+      ],
+      posts: [
+        {
+          id: 1,
+          files: "https://www.cebutours.ph/wp-content/uploads/2017/03/osmena-peak.png",
+          description:
+            "Visit ten places on our planet that are undergoing the biggest changes today.",
+          rating: 0,
+          category: ''
+        },
+        {
+          id: 2,
+          files: "https://www.travelingcebu.com/images/north-sky-beach-resort.jpg",
+          description:
+            "Visit ten places on our planet that are undergoing the biggest changes today.",
+          rating: 0,
+          category: ''
+        }
+      ]
+    };
+  },
+  methods: {
+    handleFileUpload() {
+      try {
+        this.post.files[0] = this.$refs.myFiles.files;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    upload_post() {
+      var upload = new FormData();
+      upload.append("files", this.post.files);
+      console.log(upload);
+    },
+    redirect(pathname) {
+      this.$router.push({ path: pathname });
+    }
+  }
+};
+</script>

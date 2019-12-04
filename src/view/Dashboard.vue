@@ -122,15 +122,15 @@ export default {
       posts: [
         {
           id: 1,
-          files: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
+          files: "https://www.cebutours.ph/wp-content/uploads/2017/03/osmena-peak.png",
           description:
             "Visit ten places on our planet that are undergoing the biggest changes today.",
           rating: 0,
-          category: '',
+          category: ''
         },
         {
           id: 2,
-          files: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
+          files: "https://www.travelingcebu.com/images/north-sky-beach-resort.jpg",
           description:
             "Visit ten places on our planet that are undergoing the biggest changes today.",
           rating: 0,

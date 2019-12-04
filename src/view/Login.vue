@@ -27,7 +27,7 @@
           ></v-text-field>
           <p style="color:red">{{message}}</p>
           <br />
-          <v-btn id="submit" class="secondary justify-center" @click="submit">Login</v-btn>
+          <v-btn id="submit" class="secondary justify-center" v-on:keyup.enter="submit" >Login</v-btn>
           <br />
           <v-card-text>
             "Don't have account yet?
