@@ -9,6 +9,7 @@ import Home from "@/view/Home";
 import MyAccount from "@/view/MyAccount"
 import store from '../store'
 
+
 Vue.use(VueRouter);
 
 const auth = (to, from, next) => {

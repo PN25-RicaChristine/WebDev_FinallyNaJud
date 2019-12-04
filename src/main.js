@@ -9,10 +9,10 @@ import store from './store.js'
 //Import Axios
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-// import VueSweetAlert2 from 'vue-sweetalert2'
+import VueSweetAlert2 from 'vue-sweetalert2'
 
+Vue.use(VueSweetAlert2);
 Vue.use(VueAxios,axios)
-// Vue.use(VueSweetAlert2);
 Vue.use(VueMaterial)
 Vue.config.productionTip = false
 Vue.mixin(api)

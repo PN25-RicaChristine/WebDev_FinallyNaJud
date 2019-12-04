@@ -29,8 +29,6 @@
           <br />
           <v-btn id="submit" class="secondary justify-center" @click="submit">Login</v-btn>
           <br />
-          <br />
-          <v-card-text>"Forgot password?"</v-card-text>
           <v-card-text>
             "Don't have account yet?
             <a @click="redirect('/register')">Sign up here</a>!"
@@ -43,7 +41,7 @@
 
 <script>
 import AUTH from "@/auth";
-
+import swal from 'sweetalert';
 export default {
   data: () => {
     AUTH;
@@ -76,16 +74,22 @@ export default {
         this.$store
           .dispatch("loginAsync", this.credentials)
           .then(response => {
-            if (response.data.userType == "Blogger") {
-              
+              if (response.data == "Account not found!" || response.data == "Password is incorrect!") {
+                swal(response.data, " ", "error");
+                }else{
+ if (response.data.userType == "Blogger") {
+              swal("Welcome Blogger!", "Nice one", "success");
               this.$router.push("/bloggerdashboard");
             } else {
+              swal("Welcome User!", "Nice one", "success");
               this.$router.push("/dashboard");
             }
+                        }
+           
           })
           .catch(err => console.log(err));
       } else {
-        alert("all fields are required!");
+        swal("Inputs are required!", " ", "error");
       }
     },
     redirect(router) {
