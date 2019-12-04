@@ -71,7 +71,7 @@ export default {
   methods: {
     upload(){
       var object = {"id":this.id++, "description": this.description, "rating": 0}
-      this.$emit("upload_post", object )
+      this.$emit("upload_post", object)
       console.log(object)
       this.dialog = false;
     }

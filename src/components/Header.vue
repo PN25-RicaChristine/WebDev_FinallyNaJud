@@ -12,6 +12,7 @@
             :append-outer-icon="'mdi-magnify'"
             single-line
             v-show="$route.path === '/dashboard' ? true : false"
+            v-on:keyup.enter="onEnter"
           ></v-text-field>
         </v-col>
       </v-row>

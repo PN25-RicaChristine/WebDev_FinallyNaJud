@@ -94,7 +94,7 @@
 
 
 <script>
-import Post from "components/Post.vue";
+ import Post from "components/Post.vue";
 import Uploaded_Post from "components/Uploaded_Posts.vue";
 export default {
   components: {
@@ -141,10 +141,14 @@ export default {
         console.log(error);
       }
     },
-    upload_post() {
+    upload_post(object) {
       var upload = new FormData();
       upload.append("files", this.post.files);
       console.log(upload);
+      this.$on("upload_post", object);
+      this.posts.push(object);
+      console.log("yo");
+    
     },
     redirect(pathname) {
       this.$router.push({ path: pathname });

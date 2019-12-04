@@ -38,7 +38,7 @@
           <div>
             <br />
             <br />
-            <Post @upload_post="upload_post" />
+            <Post/>
           </div>
         </div>
 
@@ -145,11 +145,6 @@ export default {
     },
     changeColor() {
       this.changeColor = "deep-orange";
-    },
-    upload_post(object) {
-      this.$on("upload_post", object);
-      this.posts.push(object);
-      console.log("yo");
     }
   }
 };
