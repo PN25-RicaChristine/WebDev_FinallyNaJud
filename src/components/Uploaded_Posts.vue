@@ -11,7 +11,10 @@
 
       <v-card-text>{{post.description}}</v-card-text>
 
-      <v-img :src="post.files" height="300"></v-img>
+      <div class="post-container">
+        <v-img :src="files" height="300"></v-img>
+      </div>
+      
 
       <!-- Like actions -->
 
@@ -40,7 +43,7 @@
       <v-dialog v-model="dialog" max-width="500px">
         <v-card class="px-2">
           <br />
-          <v-text-field outlined label="Comment here..."></v-text-field>
+          <v-text-field v-model="comment" outlined label="Comment here..."></v-text-field>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn text color="secondary" @click="dialog = false">Comment</v-btn>
@@ -62,6 +65,8 @@ export default {
   props: ["posts"],
   data() {
     return {
+      comment: "",
+      files: [],
       dialog: false,
       tags: ["mdi-thumb-up"],
     };

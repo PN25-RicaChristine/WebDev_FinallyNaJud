@@ -64,6 +64,7 @@ export default {
     },
   data() {
     return {
+      images: [],
       id: 0,
       dialog: false
     };

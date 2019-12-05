@@ -4,21 +4,6 @@
       <v-toolbar-title><a  @click="home()"><v-img src="@/assets/logoSpotMe.png"></v-img></a></v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <v-row>
-        <v-col md="10">
-          <v-text-field
-            id="search"
-            label="Search"
-            :append-outer-icon="'mdi-magnify'"
-            single-line
-            v-show="$route.path === '/dashboard' ? true : false"
-            v-on:keyup.enter="onEnter"
-          ></v-text-field>
-        </v-col>
-      </v-row>
-
-      <v-spacer></v-spacer>
-
       <v-btn
         text
         @click="signin()"

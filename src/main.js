@@ -4,9 +4,8 @@ import vuetify from './plugins/vuetify';
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 import router from "./router";
-import api from '@/auth/api.js'
+import api from '@/api.js'
 import store from './store.js'
-//Import Axios
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueSweetAlert2 from 'vue-sweetalert2'

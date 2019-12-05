@@ -104,10 +104,6 @@ export default {
   data() {
     return {
       description: "",
-      post: {
-        files: [],
-        rating: 0
-      },
       items: [
         { href: "/bloggerdashboard", title: "Home", icon: "dashboard" },
         { href: "/myaccount", title: "My Account", icon: "account_circle" },
