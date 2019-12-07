@@ -1,17 +1,29 @@
 <template>
-  <v-img class="white--text align-end" height="100px" id="image" src="@/assets/back1.jpg">
-    <v-card id="card" class="mx-auto" max-width="500">
+  <v-img
+    class="white--text align-end"
+    height="100px"
+    id="image"
+    src="@/assets/back1.jpg"
+  >
+    <v-card
+      id="card"
+      class="mx-auto"
+      max-width="500"
+    >
       <div id="title">
-        <v-avatar id="circle" size="150">
-          <v-icon dark size="600%">mdi-account</v-icon>
+        <v-avatar
+          id="circle"
+          size="150"
+        >
+          <v-icon
+            dark
+            size="600%"
+          >mdi-account</v-icon>
         </v-avatar>
       </div>
       <v-form lazy-validation ref="form" id="form">
         <center>
-          <v-text-field
-            v-model="credentials.uname"
-            :rules="[rules.required]"
-            label="Username"
+          <v-text-field v-model="credentials.uname" :rules="[rules.required]" label="Username"
             required
             :prepend-icon="'mdi-account'"
           ></v-text-field>
@@ -27,8 +39,14 @@
           ></v-text-field>
           <p style="color:red">{{message}}</p>
           <br />
-          <v-btn id="submit" class="secondary justify-center" @click="submit" >Login</v-btn>
+          <v-btn
+            id="submit"
+            class="secondary justify-center"
+            @click="submit"
+          >Login</v-btn>
           <br />
+          <br />
+          <v-card-text>"Forgot password?"</v-card-text>
           <v-card-text>
             "Don't have account yet?
             <a @click="redirect('/register')">Sign up here</a>!"
@@ -41,12 +59,10 @@
 
 <script>
 import AUTH from "@/auth";
-import swal from 'sweetalert';
 export default {
   data: () => {
     AUTH;
     return {
-      // users: [],
       message: "",
       credentials: {
         uname: "",
@@ -60,36 +76,20 @@ export default {
       }
     };
   },
-  // mounted() {
-  //   this.axios.get("http://localhost:3000/api/users/").then(response => {
-  //     for (var i in response.data.data) {
-  //       this.users.push(response.data.data[i]);
-  //     }
-  //   });
-  // },
 
   methods: {
     submit: function() {
       if (this.$refs.form.validate()) {
         this.$store
-          .dispatch("loginAsync", this.credentials)
-          .then(response => {
-              if (response.data == "Account not found!" || response.data == "Password is incorrect!") {
-                swal(response.data, " ", "error");
-                }else{
- if (response.data.userType == "Blogger") {
-              swal("Welcome Blogger!", " ", "success");
-              this.$router.push("/bloggerdashboard");
-            } else {
-              swal("Welcome User!", " ", "success");
-              this.$router.push("/dashboard");
+          .dispatch("loginAsync", this.credentials )
+          .then((response) => {
+            if(response){
+              this.$router.push("/dashboard")
             }
-                        }
-           
           })
           .catch(err => console.log(err));
       } else {
-        swal("Inputs are required!", " ", "error");
+        alert("all fields are required!");
       }
     },
     redirect(router) {
@@ -117,7 +117,7 @@ export default {
 #card {
   float: center;
   position: relative;
-  margin-bottom: 140px;
+  margin-bottom: 230px;
   background: linear-gradient(to bottom, #cd853f 0%, #ffffff 100%);
   border-radius: 25px;
   border: double rgb(24, 14, 14) 1px;
@@ -140,4 +140,3 @@ export default {
   margin-left: 20px;
 }
 </style>
-

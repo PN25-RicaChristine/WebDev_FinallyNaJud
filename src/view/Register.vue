@@ -1,13 +1,31 @@
 <template>
-  <v-img class="white--text align-end" height="100px" src="@/assets/back1.jpg">
+  <v-img
+    class="white--text align-end"
+    height="100px"
+    src="@/assets/back1.jpg"
+  >
     <div>
-      <v-card id="card" class="mx-auto" max-width="500">
+      <v-card
+        id="card"
+        class="mx-auto"
+        max-width="500"
+      >
         <div id="title">
-          <v-avatar id="circle" size="150">
-            <v-icon dark size="600%">mdi-account-plus</v-icon>
+          <v-avatar
+            id="circle"
+            size="150"
+          >
+            <v-icon
+              dark
+              size="600%"
+            >mdi-account-plus</v-icon>
           </v-avatar>
         </div>
-        <v-form ref="form" id="form" lazy-validation>
+        <v-form
+          ref="form"
+          id="form"
+          lazy-validation
+        >
           <center>
             <v-text-field
               v-model="credentials.name"
@@ -58,7 +76,11 @@
               label="User Type"
               required
             />
-            <v-btn id="submit" class="secondary justify-center" @click="validate">Register</v-btn>
+            <v-btn
+              id="submit"
+              class="secondary justify-center"
+              @click="validate"
+            >Register</v-btn>
             <v-card-text>
               "Already have an account?
               <a @click="redirect('/login')">Log in</a>!"
@@ -76,7 +98,7 @@
   background: linear-gradient(to bottom, #cd853f 0%, #ffffff 100%);
   border-radius: 25px;
   border: solid black 1px;
-  bottom: 30px;
+  bottom: 20px;
 }
 #title {
   position: absolute;
@@ -103,7 +125,6 @@
 
 <script>
 import AUTH from "@/auth";
-import swal from 'sweetalert';
 export default {
   data() {
     return {
@@ -129,30 +150,26 @@ export default {
     };
   },
   methods: {
-    validate() {
+    validate: function(e){
+      e.preventDefault();
+
+
+        AUTH.register(this.credentials.email, this.credentials.password);
+    
       if (this.$refs.form.validate()) {
-        
         let data = {
           name: this.credentials.name,
           username: this.credentials.uname,
           password: this.credentials.password,
           email: this.credentials.email,
           userType: this.credentials.type,
-        }; 
+        };
         this.$store
           .dispatch("registerAsync", data)
-          .then((response) => {
-            if(response.data == "Username is already taken."||response.data == "Email is already taken."){
-              swal(response.data, " ", "error");
-              this.$router.push("/register")
-            } else {
-              swal("Successfully Registered!", " ", "success");
-              this.$router.push("/login")
-            }
-          })
+          .then(() => this.$router.push("/login"))
           .catch(err => console.log(err));
       }else{
-       swal("Inputs are required!", " ", "error");
+       alert("naa kay sayop!")
       }
     },
     redirect(router) {
@@ -161,4 +178,3 @@ export default {
   }
 };
 </script>
-

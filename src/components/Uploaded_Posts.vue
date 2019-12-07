@@ -12,7 +12,7 @@
       <v-card-text>{{post.description}}</v-card-text>
 
       <div class="post-container">
-        <v-img :src="files" height="300"></v-img>
+        <v-img posts:post.files height="300"></v-img>
       </div>
       
 
@@ -66,11 +66,16 @@ export default {
   data() {
     return {
       comment: "",
-      files: [],
+      // files: [],
       dialog: false,
       tags: ["mdi-thumb-up"],
     };
   },
+  // mounted() {
+  //   axios.get("").then(res => {
+
+  //   })
+  // },
   methods: {}
 };
 </script>

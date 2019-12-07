@@ -7,15 +7,15 @@
           <v-list-item>
             <v-img
               id="image"
-              src="https://www.stickpng.com/assets/images/585e4bf3cb11b227491c339a.png"
+              src="https://randomuser.me/api/portraits/women/85.jpg"
               height="200"
               max-width="200"
             ></v-img>
           </v-list-item>
           <v-list-item link two-line class="title">
             <v-list-item-content>
-              <v-list-item-title>{{name}}</v-list-item-title>
-              <v-list-item-subtitle>{{type}}</v-list-item-subtitle>
+              <v-list-item-title>Sandra Adams</v-list-item-title>
+              <v-list-item-subtitle>User</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -31,22 +31,33 @@
             </v-list-item-content>
           </v-list-item>
         </v-list>
+        <v-btn @click="logout">Logout</v-btn>
       </v-col>
       <v-col cols="8">
         <!-- Tinuod nga post ni diria -->
         <div class="uploaded_post">
           <div>
-            <br />
-            <br />
-            <Post/>
+            <br>
+            <br>
+            <Post @upload_post="upload_post"/>
           </div>
         </div>
 
         <!-- Posts -->
         <!-- <div v-for="(item, index) in this.createPost" :key="index"> -->
-        <Uploaded_Post :posts="this.posts" />
+        <Uploaded_Post :posts="this.posts"/>
 
         <!-- Comment Dialog here!! -->
+        <v-dialog v-model="dialog" max-width="500px">
+          <v-card class="px-2">
+            <br>
+            <v-text-field outlined label="Comment here..."></v-text-field>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn text color="secondary" @click="dialog = false">Comment</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-col>
     </v-row>
   </div>
@@ -98,7 +109,7 @@
 <script>
 import Post from "components/Post.vue";
 import Uploaded_Post from "components/Uploaded_Posts.vue";
-
+import axios from 'axios'
 export default {
   // name: "UploadPost",
   components: {
@@ -107,8 +118,6 @@ export default {
   },
   data() {
     return {
-      name:"Full Name",
-      type: "User",
       dialog: false,
       post: {
         files: [],
@@ -116,25 +125,22 @@ export default {
       },
       items: [
         { href: "/dashboard", title: "Home", icon: "dashboard" },
-        { href: "/myaccount", title: "My Account", icon: "account_circle" },
-        { href: "/login", title: "Logout", icon: "logout" }
+        { href: "/myaccount", title: "My Account", icon: "account_circle" }
       ],
       posts: [
         {
-          id: 1,
-          files: "https://www.cebutours.ph/wp-content/uploads/2017/03/osmena-peak.png",
+          id: 4,
+          files: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
           description:
             "Visit ten places on our planet that are undergoing the biggest changes today.",
-          rating: 0,
-          category: ''
+          rating: 0
         },
         {
-          id: 2,
-          files: "https://www.travelingcebu.com/images/north-sky-beach-resort.jpg",
+          id: 5,
+          files: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
           description:
             "Visit ten places on our planet that are undergoing the biggest changes today.",
-          rating: 0,
-          category: ''
+          rating: 0
         }
       ]
     };
@@ -145,8 +151,18 @@ export default {
     },
     changeColor() {
       this.changeColor = "deep-orange";
+    },
+    upload_post(object) {
+      this.$on("upload_post", object);
+      this.posts.push(object);
+      console.log("yo");
+    },
+    logout: function() {
+      sessionStorage.clear();
+      localStorage.removeItem("jwt");
+      delete axios.defaults.headers.common["Authorization"];
+      this.$router.push("/login");
     }
   }
 };
 </script>
-

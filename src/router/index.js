@@ -57,13 +57,6 @@ const routes = [
 
   },
   {
-    path: "/home",
-    name: "home",
-    component: Home,
-    tokenRequired : false
-
-  },
-  {
     path: "/myaccount",
     name: "myaccount",
     component: MyAccount,

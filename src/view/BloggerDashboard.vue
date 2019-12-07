@@ -37,13 +37,13 @@
 
         <div class="uploaded_post">
           <div>
-            <br />
-            <br />
-            <Post @upload_post="upload_post" />
+            <br>
+            <br>
+            <Post @upload_post="upload_post"/>
           </div>
         </div>
         <!-- Posts -->
-        <Uploaded_Post :posts="this.posts" />
+        <Uploaded_Post :posts="this.posts"/>
       </v-col>
     </v-row>
   </div>
@@ -94,8 +94,11 @@
 
 
 <script>
- import Post from "components/Post.vue";
+import Post from "components/Post.vue";
 import Uploaded_Post from "components/Uploaded_Posts.vue";
+
+
+
 export default {
   components: {
     Uploaded_Post,
@@ -103,6 +106,7 @@ export default {
   },
   data() {
     return {
+      files: [],
       description: "",
       items: [
         { href: "/bloggerdashboard", title: "Home", icon: "dashboard" },
@@ -112,19 +116,30 @@ export default {
       posts: [
         {
           id: 1,
-          files: "https://www.cebutours.ph/wp-content/uploads/2017/03/osmena-peak.png",
+          files:
+            "https://www.cebutours.ph/wp-content/uploads/2017/03/osmena-peak.png",
           description:
             "Visit ten places on our planet that are undergoing the biggest changes today.",
           rating: 0,
-          category: ''
+          category: ""
         },
         {
           id: 2,
-          files: "https://www.travelingcebu.com/images/north-sky-beach-resort.jpg",
+          files:
+            "https://www.travelingcebu.com/images/north-sky-beach-resort.jpg",
           description:
             "Visit ten places on our planet that are undergoing the biggest changes today.",
           rating: 0,
-          category: ''
+          category: ""
+        },
+        {
+          id: 3,
+          files:
+            "https://www.travelingcebu.com/images/north-sky-beach-resort.jpg",
+          description:
+            "Visit ten places on our planet that are undergoing the biggest changes today.",
+          rating: 0,
+          category: ""
         }
       ]
     };
@@ -132,19 +147,18 @@ export default {
   methods: {
     handleFileUpload() {
       try {
-        this.post.files[0] = this.$refs.myFiles.files;
+        this.files[0] = this.$refs.myFiles.files;
       } catch (error) {
         console.log(error);
       }
     },
     upload_post(object) {
       var upload = new FormData();
-      upload.append("files", this.post.files);
+      upload.append("files", this.files);
       console.log(upload);
       this.$on("upload_post", object);
       this.posts.push(object);
-      console.log("yo");
-    
+      console.log("nigana ni sya!");
     },
     redirect(pathname) {
       this.$router.push({ path: pathname });

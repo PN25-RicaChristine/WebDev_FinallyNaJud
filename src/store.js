@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 
-
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -35,18 +34,26 @@ export default new Vuex.Store({
                 commit('auth_request')
                 axios({ url: 'http://localhost:3000/api/users/login', data: { data: user }, method: 'POST' })
                     .then(resp => {
-                        const token = resp.data.token
-                        const user = resp.data.user
-                        console.log(resp)
-                        console.log(user)
-                      
-
-                        if (token) {
-                            localStorage.setItem('jwt', token)
+                        console.log(resp.data)
+                        if (resp.data == "Account not found!") {
+                            alert(resp.data)
+                        } else if (resp.data == "Password is incorrect!") {
+                            alert(resp.data)
+                        } else {
+                            const token = resp.data.token
+                            const user = resp.data.userInfo
+                            console.log(user)
+                            sessionStorage.setItem("Name", user.name),
+                            sessionStorage.setItem("Username", user.username),
+                            sessionStorage.setItem("Email", user.email),
+                            sessionStorage.setItem("Password", user.password)
+                            if (token) {
+                                localStorage.setItem('jwt', token)
+                            }
+                            axios.defaults.headers.common['Authorization'] = token
+                            commit('auth_success', token, user)
+                            resolve(resp)
                         }
-                        axios.defaults.headers.common['Authorization'] = token
-                        commit('auth_success', token, user)
-                        resolve(resp)
                     })
                     .catch(err => {
                         console.log(err)
@@ -62,10 +69,29 @@ export default new Vuex.Store({
                 commit('auth_request')
                 axios.post('http://localhost:3000/api/users/register', user)
                     .then(resp => {
-                        const token = resp.data.token
-                        const user = resp.data.user
+                        resolve(resp)
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        commit('auth_error', err)
+                        reject(err)
+                    })
+            })
+        },
+
+        updateSync({ commit }, user) {
+            return new Promise((resolve, reject) => {
+                commit('auth_request')
+                console.log(user)
+                axios.put('http://localhost:3000/api/users/account', user)
+                    .then(resp => {
+                        const token = localStorage.getItem('jwt')
+                        const user = resp.data
                         console.log(resp)
-            
+                        sessionStorage.setItem("Name", user.name),
+                        sessionStorage.setItem("Username", user.username),
+                        sessionStorage.setItem("Email", user.email),
+                        sessionStorage.setItem("Password", user.password)
                         if (token) {
                             localStorage.setItem('jwt', token)
                         }
@@ -80,13 +106,18 @@ export default new Vuex.Store({
                         reject(err)
                     })
             })
-        }
+        },
+
         // logout({ commit }) {
         //     return new Promise((resolve, reject) => {
+        //         console.log("logout")
         //         commit('logout')
         //         localStorage.removeItem('jwt')
         //         delete axios.defaults.headers.common['Authorization']
         //         resolve()
+        //     })
+        //     .catch(err => {
+        //         reject(err)
         //     })
         // }
     },
