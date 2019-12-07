@@ -14,6 +14,12 @@
       <v-card class="px-2">
         <div>
           <!-- Create Post -->
+          <v-progress-linear
+            :active="loading"
+            :indeterminate="loading"
+            absolute
+            color="orange lighten-1 accent-4"
+          ></v-progress-linear>
           <v-card-title id="title">Create Post</v-card-title>
         </div>
         <div>
@@ -23,8 +29,8 @@
             </div>
           </v-card-text>
           <v-card-actions>
-            <v-file-input
-              v-model="image"
+            <!-- <v-file-input
+              v-model="imageData"
               color="deep-purple accent-4"
               counter
               placeholder="Add Photo"
@@ -33,9 +39,9 @@
               accept="image/*"
               id="file"
               ref="myFiles"
-               @change="encodeToBase64"
-            ></v-file-input>
-<!-- <input type="file" accept="image/*" @change="encodeToBase64" id="file"> -->
+               @change="encodeToBase64(event)"
+            ></v-file-input>-->
+            <input type="file" accept="image/*" @change="encodeToBase64" id="file" />
             <v-spacer></v-spacer>
 
             <!-- Post Button -->
@@ -78,63 +84,43 @@ export default {
       imageData: null,
       id: 0,
       dialog: false,
-      
+      loading: false
     };
   },
   methods: {
     encodeToBase64(event) {
-      event.preventDefault();
       const file = event.target.files[0];
-      const canvas = document.createElement("canvas");
-      canvas.getContext("2d");
-      const reader = new FileReader();
-      reader.onload = event => {
-        const img = new Image();
-        img.onload = () => {
-          this.image = canvas
-            .toDataURL("image/png")
-            .replace(/^data:image\/(png|jpg);base64,/, "");
-          // console.log("RESULT/png", this.image);
-        };
-        img.src = event.target.result;
-        // console.log("RESULT!", img.src);
-        var a = document.getElementById("file").value;
-        var b = a.split("\\");
-        this.imageData = { filename: b[2], image: img.src };
-      };
-      reader.readAsDataURL(file);
-      var temp = document.getElementById("file").value.split("\\");
-      this.file = temp[2];
-      this.uploaded = true;
+      this.imageData = file;
     },
     upload() {
-      // var formData = new FormData();
-      // formData.append("files", this.image);
-      // formData.append(
-      //   "details",
-      //   JSON.stringify({
-      //     post_text: this.description,
-      //     account_id: this.user_id
+      this.loading = true;
+      console.log(this.imageData.name);
+      let datas = {
+        post_blogger: sessionStorage.getItem("Name"),
+        post_text: this.description,
+        post_image: this.imageData.name
+      };
 
-      //   })
-      // );
-      let formData = {
-        description: this.description,
-        files: this.image,
-      }
+      let formData = new FormData();
+      formData.append("post_image", this.imageData);
       axios
-        .post("http://localhost:3000/bloggers/createPost", formData)
-        .then(res => {
-          console.log(res.data);
+        .post("http://localhost:3000/bloggers/uploadfile", formData, {
+          headers: { "Content-Type": "multipart/form-data" }
+        })
+        .then(() => {
+          axios
+            .post("http://localhost:3000/bloggers/createPost", datas)
+            .then(res => {
+              this.loading = false;
+              this.dialog = false;
+              // window.location.reload()
+              console.log(res);
+              this.$emit("uploaded" ,res.data)
+            });
         })
         .catch(err => {
           console.log(err);
         });
-
-      // var object = {"id":this.id++, "description": this.description, "rating": 0}
-      // this.$emit("upload_post", object)
-      // console.log(object)
-      // this.dialog = false;
     }
   },
   mounted() {}

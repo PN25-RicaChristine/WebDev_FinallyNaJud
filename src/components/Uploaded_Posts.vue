@@ -4,17 +4,18 @@
       <v-list-item>
         <v-list-item-avatar color="grey"></v-list-item-avatar>
         <v-list-item-content>
-          <v-list-item-title class="headline">Jessavel Toring</v-list-item-title>
-          <v-list-item-subtitle >time here</v-list-item-subtitle>
+          <v-list-item-title class="headline">{{post.post_blogger}}</v-list-item-title>
+          <v-list-item-subtitle>{{post.date_time}}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
-      <v-card-text>{{post.description}}</v-card-text>
+      <v-card-text>{{post.post_text}}</v-card-text>
 
       <div class="post-container">
-        <v-img posts:post.files height="300"></v-img>
+        <v-img :src="`http://localhost:3000/files/${post.post_image}`" height="300"></v-img>
+        
+         <!-- <img src="@/../api/uploads/d.png" alt="" style='height="300"'> -->
       </div>
-      
 
       <!-- Like actions -->
 
@@ -63,19 +64,18 @@
 <script>
 export default {
   props: ["posts"],
+
   data() {
     return {
       comment: "",
       // files: [],
       dialog: false,
-      tags: ["mdi-thumb-up"],
+      tags: ["mdi-thumb-up"]
     };
   },
-  // mounted() {
-  //   axios.get("").then(res => {
 
-  //   })
-  // },
-  methods: {}
+  methods: {},
+
+  
 };
 </script>

@@ -32,7 +32,7 @@ export default new Vuex.Store({
         loginAsync({ commit }, user) {
             return new Promise((resolve, reject) => {
                 commit('auth_request')
-                axios({ url: 'http://localhost:3000/api/users/login', data: { data: user }, method: 'POST' })
+                axios({ url: 'http://localhost:3000/users/login', data: { data: user }, method: 'POST' })
                     .then(resp => {
                         console.log(resp.data)
                         if (resp.data == "Account not found!") {
@@ -45,8 +45,8 @@ export default new Vuex.Store({
                             console.log(user)
                             sessionStorage.setItem("Name", user.name),
                             sessionStorage.setItem("Username", user.username),
-                            sessionStorage.setItem("Email", user.email),
-                            sessionStorage.setItem("Password", user.password)
+                            sessionStorage.setItem("Email", user.email)
+                            // sessionStorage.setItem("Password", user.password)
                             if (token) {
                                 localStorage.setItem('jwt', token)
                             }
@@ -67,7 +67,7 @@ export default new Vuex.Store({
         registerAsync({ commit }, user) {
             return new Promise((resolve, reject) => {
                 commit('auth_request')
-                axios.post('http://localhost:3000/api/users/register', user)
+                axios.post('http://localhost:3000/users/register', user)
                     .then(resp => {
                         resolve(resp)
                     })

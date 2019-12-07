@@ -37,13 +37,13 @@
 
         <div class="uploaded_post">
           <div>
-            <br>
-            <br>
-            <Post @upload_post="upload_post"/>
+            <br />
+            <br />
+            <Post  v-on:uploaded="updatePosts" />
           </div>
         </div>
         <!-- Posts -->
-        <Uploaded_Post :posts="this.posts"/>
+        <Uploaded_Post :posts="this.posts" />
       </v-col>
     </v-row>
   </div>
@@ -96,8 +96,7 @@
 <script>
 import Post from "components/Post.vue";
 import Uploaded_Post from "components/Uploaded_Posts.vue";
-
-
+import axios from "axios";
 
 export default {
   components: {
@@ -116,8 +115,7 @@ export default {
       posts: [
         {
           id: 1,
-          files:
-            "https://www.cebutours.ph/wp-content/uploads/2017/03/osmena-peak.png",
+          files: require("@/../api/uploads/d.png"),
           description:
             "Visit ten places on our planet that are undergoing the biggest changes today.",
           rating: 0,
@@ -162,7 +160,28 @@ export default {
     },
     redirect(pathname) {
       this.$router.push({ path: pathname });
+    },
+    updatePosts(post) {
+      console.log(post);
+      
+      this.posts.push(post);
+      this.sortPosts();
+    },
+    sortPosts() {
+      this.posts.sort((a, b) => (a.date_time < b.date_time ? 1 : -1));
     }
+  },
+  mounted() {
+    axios.get("http://localhost:3000/bloggers/getPost").then(res => {
+      // console.log(res)
+      this.posts = res.data.response;
+      this.sortPosts();
+      // for(var i = 0;i<this.posts.length;i++){
+      //   let pic = this.posts[i].post_image
+      //   this.posts[i].post_image =require(`@/../api/uploads/${pic}`)
+      // }
+      console.log(this.posts);
+    });
   }
 };
 </script>
