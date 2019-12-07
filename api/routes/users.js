@@ -107,16 +107,34 @@ router.post('/login', (req, res) => {
     })
 });
 
-router.get('/profile', passport.authenticate('jwt',
-    {
-        session: false
-    }), (req, res) => {
-        return res.json({
-            user: req.user
-        });
-    }
+// router.get('/profile', passport.authenticate('jwt',
+//     {
+//         session: false
+//     }), (req, res) => {
+//         return res.json({
+//             user: req.user
+//         });
+//     }
 
-);
+// );
+
+router.get('/profile/:token', (req, res) => {
+    console.log(req.params)
+    let token = req.params.token
+    jwt.verify(token, key, (err, decode) => {
+        if (err) {
+            res.status(401).send(err)
+        } else {
+            res.json({
+                name: decode.name,
+                type: decode.userType
+            })
+        }
+    })
+})
+
+
+
 
 router.put('/account', (req, res) => {
     console.log(req.body)

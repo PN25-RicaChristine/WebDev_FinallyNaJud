@@ -6,7 +6,7 @@ var object
 
 
 router.get('/getPost', (req, res) => {
-    posts.find().sort({ date_time: -1 }).then(response => {
+    posts.find().then(response => {
         if (response) {
             res.send({
                 status: 200,
