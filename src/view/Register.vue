@@ -125,6 +125,7 @@
 
 <script>
 import AUTH from "@/auth";
+import swal from 'sweetalert';
 export default {
   data() {
     return {
@@ -164,12 +165,18 @@ export default {
           email: this.credentials.email,
           userType: this.credentials.type,
         };
-        this.$store
+         this.$store
           .dispatch("registerAsync", data)
-          .then(() => this.$router.push("/login"))
+          .then((response) => {
+            if(response.data == "Username is already taken."||response.data == "Email is already taken."){
+              swal(response.data, " ", "error");
+              this.$router.push("/register")
+            } else {
+              swal("Successfully Registered!", " ", "success");
+              this.$router.push("/login")
+            }
+          })
           .catch(err => console.log(err));
-      }else{
-       alert("naa kay sayop!")
       }
     },
     redirect(router) {

@@ -14,7 +14,7 @@
           </v-list-item>
           <v-list-item link two-line class="title">
             <v-list-item-content>
-              <v-list-item-title>Sandra Adams</v-list-item-title>
+              <v-list-item-title>{{name}}</v-list-item-title>
               <v-list-item-subtitle>User</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -109,7 +109,8 @@
 <script>
 import Post from "components/Post.vue";
 import Uploaded_Post from "components/Uploaded_Posts.vue";
-import axios from 'axios'
+import axios from 'axios';
+import AUTH from "@/auth";
 export default {
   // name: "UploadPost",
   components: {
@@ -117,7 +118,9 @@ export default {
     Post
   },
   data() {
+    AUTH;
     return {
+      name:AUTH.getUser(),
       dialog: false,
       post: {
         files: [],
@@ -163,6 +166,12 @@ export default {
       delete axios.defaults.headers.common["Authorization"];
       this.$router.push("/login");
     }
+  },  mounted() {
+    axios.get("http://localhost:3000/bloggers/getPost").then(res => {    
+      this.posts = res.data.response;
+      this.sortPosts();
+      console.log(this.posts);
+    });
   }
 };
 </script>

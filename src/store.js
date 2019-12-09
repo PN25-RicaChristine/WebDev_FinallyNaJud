@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-
+import swal from "sweetalert";
+import AUTH from "@/auth";
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -36,17 +37,22 @@ export default new Vuex.Store({
                     .then(resp => {
                         console.log(resp.data)
                         if (resp.data == "Account not found!") {
-                            alert(resp.data)
+                            swal(resp.data, " ", "error");
                         } else if (resp.data == "Password is incorrect!") {
-                            alert(resp.data)
+                            swal(resp.data, " ", "error");
                         } else {
                             const token = resp.data.token
                             const user = resp.data.userInfo
                             console.log(user)
-                            sessionStorage.setItem("Name", user.name),
-                            sessionStorage.setItem("Username", user.username),
-                            sessionStorage.setItem("Email", user.email)
-                            // sessionStorage.setItem("Password", user.password)
+                            localStorage.setItem("Name", user.name),
+                                localStorage.setItem("Username", user.username),
+                                localStorage.setItem("Email", user.email),
+                                localStorage.setItem("Password", user.password),
+                                AUTH.setUser(localStorage.getItem("Name")),
+                                AUTH.setUsername(localStorage.getItem("Username")),
+                                AUTH.setEmail(localStorage.getItem("Email"),
+                                    AUTH.setPassword(localStorage.getItem("Password"))
+                                )
                             if (token) {
                                 localStorage.setItem('jwt', token)
                             }
@@ -89,9 +95,9 @@ export default new Vuex.Store({
                         const user = resp.data
                         console.log(resp)
                         sessionStorage.setItem("Name", user.name),
-                        sessionStorage.setItem("Username", user.username),
-                        sessionStorage.setItem("Email", user.email),
-                        sessionStorage.setItem("Password", user.password)
+                            sessionStorage.setItem("Username", user.username),
+                            sessionStorage.setItem("Email", user.email),
+                            sessionStorage.setItem("Password", user.password)
                         if (token) {
                             localStorage.setItem('jwt', token)
                         }

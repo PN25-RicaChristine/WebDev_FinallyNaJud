@@ -1,29 +1,17 @@
 <template>
-  <v-img
-    class="white--text align-end"
-    height="100px"
-    id="image"
-    src="@/assets/back1.jpg"
-  >
-    <v-card
-      id="card"
-      class="mx-auto"
-      max-width="500"
-    >
+  <v-img class="white--text align-end" height="100px" id="image" src="@/assets/back1.jpg">
+    <v-card id="card" class="mx-auto" max-width="500">
       <div id="title">
-        <v-avatar
-          id="circle"
-          size="150"
-        >
-          <v-icon
-            dark
-            size="600%"
-          >mdi-account</v-icon>
+        <v-avatar id="circle" size="150">
+          <v-icon dark size="600%">mdi-account</v-icon>
         </v-avatar>
       </div>
       <v-form lazy-validation ref="form" id="form">
         <center>
-          <v-text-field v-model="credentials.uname" :rules="[rules.required]" label="Username"
+          <v-text-field
+            v-model="credentials.uname"
+            :rules="[rules.required]"
+            label="Username"
             required
             :prepend-icon="'mdi-account'"
           ></v-text-field>
@@ -38,14 +26,10 @@
             :prepend-icon="'mdi-key-variant'"
           ></v-text-field>
           <p style="color:red">{{message}}</p>
-          <br />
-          <v-btn
-            id="submit"
-            class="secondary justify-center"
-            @click="submit"
-          >Login</v-btn>
-          <br />
-          <br />
+          <br>
+          <v-btn id="submit" class="secondary justify-center" @click="submit">Login</v-btn>
+          <br>
+          <br>
           <v-card-text>"Forgot password?"</v-card-text>
           <v-card-text>
             "Don't have account yet?
@@ -59,6 +43,7 @@
 
 <script>
 import AUTH from "@/auth";
+import swal from "sweetalert";
 export default {
   data: () => {
     AUTH;
@@ -81,18 +66,20 @@ export default {
     submit: function() {
       if (this.$refs.form.validate()) {
         this.$store
-          .dispatch("loginAsync", this.credentials )
-          .then((response) => {
-            console.log(response)
-            if(response.data.userType=="Blogger"){
-              this.$router.push("/bloggerdashboard")
-            }else{
-              this.$router.push("/dashboard")
-            }
+          .dispatch("loginAsync", this.credentials)
+          .then(response => {
+              if (response.data.userType == "Blogger") {
+                swal("Welcome Blogger!", " ", "success");
+                this.$router.push("/bloggerdashboard");
+              } else {
+                swal("Welcome User!", " ", "success");
+                this.$router.push("/dashboard");
+              }
+            
           })
           .catch(err => console.log(err));
       } else {
-        alert("all fields are required!");
+        swal("Inputs are required!", " ", "error");
       }
     },
     redirect(router) {

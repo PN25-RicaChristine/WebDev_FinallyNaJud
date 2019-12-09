@@ -14,7 +14,7 @@
           </v-list-item>
           <v-list-item link two-line class="title">
             <v-list-item-content>
-              <v-list-item-title>Blogger Name</v-list-item-title>
+              <v-list-item-title>{{name}}</v-list-item-title>
               <v-list-item-subtitle>Blogger</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -37,13 +37,13 @@
 
         <div class="uploaded_post">
           <div>
-            <br />
-            <br />
-            <Post  v-on:uploaded="updatePosts" />
+            <br>
+            <br>
+            <Post v-on:uploaded="updatePosts"/>
           </div>
         </div>
         <!-- Posts -->
-        <Uploaded_Post :posts="this.posts" />
+        <Uploaded_Post :posts="this.posts"/>
       </v-col>
     </v-row>
   </div>
@@ -97,6 +97,7 @@
 import Post from "components/Post.vue";
 import Uploaded_Post from "components/Uploaded_Posts.vue";
 import axios from "axios";
+import AUTH from "@/auth";
 
 export default {
   components: {
@@ -104,13 +105,15 @@ export default {
     Post
   },
   data() {
+    AUTH;
     return {
+      name: AUTH.getUser(),
       files: [],
       description: "",
       items: [
         { href: "/bloggerdashboard", title: "Home", icon: "dashboard" },
         { href: "/myaccount", title: "My Account", icon: "account_circle" },
-        { href: "/login", title: "Logout", icon: "logout" }
+        { href: "/login", title: "Logout", icon: "logout", click: "logout" }
       ],
       posts: [
         {
@@ -163,25 +166,29 @@ export default {
     },
     updatePosts(post) {
       console.log(post);
-      
+
       this.posts.push(post);
       this.sortPosts();
     },
     sortPosts() {
       this.posts.sort((a, b) => (a.date_time < b.date_time ? 1 : -1));
+    },
+    logout: function() {
+      localStorage.setItem("Name", " "),
+        localStorage.setItem("Username", " "),
+        localStorage.setItem("Email", " ");
     }
   },
   mounted() {
-    axios.get("http://localhost:3000/bloggers/getPost").then(res => {
-      // console.log(res)
-      this.posts = res.data.response;
-      this.sortPosts();
-      // for(var i = 0;i<this.posts.length;i++){
-      //   let pic = this.posts[i].post_image
-      //   this.posts[i].post_image =require(`@/../api/uploads/${pic}`)
-      // }
-      console.log(this.posts);
-    });
+    localStorage.removeItem("Name"),
+      localStorage.removeItem("Username"),
+      localStorage.removeItem("Email"),
+      localStorage.removeItem("Password"),
+      axios.get("http://localhost:3000/bloggers/getPost").then(res => {
+        this.posts = res.data.response;
+        this.sortPosts();
+        console.log(this.posts);
+      });
   }
 };
 </script>

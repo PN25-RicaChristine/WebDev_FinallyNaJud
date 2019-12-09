@@ -69,6 +69,7 @@
 <script>
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+import AUTH from "@/auth";
 
 export default {
   //  props: {
@@ -78,6 +79,7 @@ export default {
   //     time: Date
   //   },
   data() {
+    AUTH;
     return {
       user_id: jwt_decode(localStorage.getItem("jwt"))._id,
       description: null,
@@ -96,7 +98,7 @@ export default {
       this.loading = true;
       console.log(this.imageData.name);
       let datas = {
-        post_blogger: sessionStorage.getItem("Name"),
+        post_blogger: AUTH.getUser(),
         post_text: this.description,
         post_image: this.imageData.name
       };
