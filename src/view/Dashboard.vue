@@ -14,8 +14,8 @@
           </v-list-item>
           <v-list-item link two-line class="title">
             <v-list-item-content>
-              <v-list-item-title>{{name}}</v-list-item-title>
-              <v-list-item-subtitle>User</v-list-item-subtitle>
+              <v-list-item-title>{{name}}</v-list-item-title>  
+              <v-list-item-subtitle>USER</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -122,6 +122,8 @@ export default {
     return {
       name:AUTH.getUser(),
       dialog: false,
+      name:"",
+      type:"",
       post: {
         files: [],
         rating: 0
@@ -147,6 +149,29 @@ export default {
         }
       ]
     };
+  },
+  mounted() {
+    axios.get("http://localhost:3000/bloggers/getPost").then(res => {
+      // console.log(res)
+      this.posts = res.data.response;
+      this.sortPosts();
+      this.$store
+      .dispatch("authorizedAsync", localStorage.getItem("jwt"))
+      .then(response => {
+          console.log(response)
+          this.name = response.data.name;
+          this.type = response.data.type;
+        
+      })
+      .catch(err => {
+        console.log(err);
+      });
+      // for(var i = 0;i<this.posts.length;i++){
+      //   let pic = this.posts[i].post_image
+      //   this.posts[i].post_image =require(`@/../api/uploads/${pic}`)
+      // }
+      console.log(this.posts);
+    });
   },
   methods: {
     redirect(pathname) {

@@ -15,7 +15,7 @@
           <v-list-item link two-line class="title">
             <v-list-item-content>
               <v-list-item-title>{{name}}</v-list-item-title>
-              <v-list-item-subtitle>Blogger</v-list-item-subtitle>
+              <v-list-item-subtitle>BLOGGER</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -109,6 +109,8 @@ export default {
     return {
       name: AUTH.getUser(),
       files: [],
+      name:"",
+      type:"",
       description: "",
       items: [
         { href: "/bloggerdashboard", title: "Home", icon: "dashboard" },
@@ -180,6 +182,7 @@ export default {
     }
   },
   mounted() {
+<<<<<<< HEAD
     localStorage.removeItem("Name"),
       localStorage.removeItem("Username"),
       localStorage.removeItem("Email"),
@@ -189,6 +192,29 @@ export default {
         this.sortPosts();
         console.log(this.posts);
       });
+=======
+    axios.get("http://localhost:3000/bloggers/getPost").then(res => {
+      // console.log(res)
+      this.posts = res.data.response;
+      this.sortPosts();
+      this.$store
+      .dispatch("authorizedAsync", localStorage.getItem("jwt"))
+      .then(response => {
+          console.log(response)
+          this.name = response.data.name;
+          this.type = response.data.type;
+        
+      })
+      .catch(err => {
+        console.log(err);
+      });
+      // for(var i = 0;i<this.posts.length;i++){
+      //   let pic = this.posts[i].post_image
+      //   this.posts[i].post_image =require(`@/../api/uploads/${pic}`)
+      // }
+      console.log(this.posts);
+    });
+>>>>>>> 414b13d0a7bbdbcf8d692de0741db20221af8b73
   }
 };
 </script>

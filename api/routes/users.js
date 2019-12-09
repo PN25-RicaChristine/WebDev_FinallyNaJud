@@ -107,6 +107,17 @@ router.post('/login', (req, res) => {
     })
 });
 
+// router.get('/profile', passport.authenticate('jwt',
+//     {
+//         session: false
+//     }), (req, res) => {
+//         return res.json({
+//             user: req.user
+//         });
+//     }
+
+// );
+
 router.get('/profile/:token', (req, res) => {
     console.log(req.params)
     let token = req.params.token
@@ -123,6 +134,9 @@ router.get('/profile/:token', (req, res) => {
     })
 
 })
+ 
+
+
 
 router.put('/account', (req, res) => {
     console.log(req.body)

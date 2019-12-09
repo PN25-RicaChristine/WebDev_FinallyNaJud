@@ -84,15 +84,15 @@ export default new Vuex.Store({
                     })
             })
         },
-
         updateSync({ commit }, user) {
             return new Promise((resolve, reject) => {
                 commit('auth_request')
                 console.log(user)
-                axios.put('http://localhost:3000/api/users/account', user)
+                axios.put('http://localhost:3000/users/account', user)
                     .then(resp => {
                         const token = localStorage.getItem('jwt')
                         const user = resp.data
+<<<<<<< HEAD
                         console.log(resp)
                         sessionStorage.setItem("Name", user.name),
                             sessionStorage.setItem("Username", user.username),
@@ -101,6 +101,11 @@ export default new Vuex.Store({
                         if (token) {
                             localStorage.setItem('jwt', token)
                         }
+=======
+                        // if (token) {
+                        //     localStorage.setItem('jwt', token)
+                        // }
+>>>>>>> 414b13d0a7bbdbcf8d692de0741db20221af8b73
                         axios.defaults.headers.common['Authorization'] = token
                         commit('auth_success', token, user)
                         resolve(resp)
@@ -113,7 +118,20 @@ export default new Vuex.Store({
                     })
             })
         },
-
+        authorizedAsync({ commit }, token) {
+            return new Promise((resolve, reject) => {
+                commit('auth_request')
+                axios.get('http://localhost:3000/users/profile/' + token)
+                    .then(resp => {
+                        resolve(resp)
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        commit('auth_error', err)
+                        reject(err)
+                    })
+            })
+        }
         // logout({ commit }) {
         //     return new Promise((resolve, reject) => {
         //         console.log("logout")

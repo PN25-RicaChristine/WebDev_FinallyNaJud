@@ -29,18 +29,6 @@
             </div>
           </v-card-text>
           <v-card-actions>
-            <!-- <v-file-input
-              v-model="imageData"
-              color="deep-purple accent-4"
-              counter
-              placeholder="Add Photo"
-              prepend-icon="mdi-camera"
-              :show-size="1000"
-              accept="image/*"
-              id="file"
-              ref="myFiles"
-               @change="encodeToBase64(event)"
-            ></v-file-input>-->
             <input type="file" accept="image/*" @change="encodeToBase64" id="file" />
             <v-spacer></v-spacer>
 
@@ -72,12 +60,6 @@ import jwt_decode from "jwt-decode";
 import AUTH from "@/auth";
 
 export default {
-  //  props: {
-  //     description: String,
-  //     image: [],
-  //     rating: Number,
-  //     time: Date
-  //   },
   data() {
     AUTH;
     return {

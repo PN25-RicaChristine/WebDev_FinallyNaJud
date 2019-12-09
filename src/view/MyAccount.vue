@@ -157,6 +157,7 @@ export default {
         password: this.EditPassword
       };
       console.log(data)
+      this.dialog = false;
       this.$store
         .dispatch("updateSync", data)
         .then(response => {
