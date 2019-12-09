@@ -35,7 +35,32 @@ const user = require('./routes/users');
 const post = require('./routes/posts');
 
 app.use('/users', user);
-app.use('/bloggers', post)
+app.use('/bloggers', post);
+
+
+//for user prof image
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './public/images/')
+    },
+    filename: function (req, file, cb) {
+        console.log(req)
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+});
+const upload = multer({ storage: storage });
+app.get('/images/:filename', (req, res) => {
+    res.sendFile(__dirname + '/public/images/' + req.params.filename)
+})
+
+app.post('/images/upload/:id', upload.single('file'), (req, res) => {
+    console.log(`new upload = ${req.file.filename}\n`);
+    console.log(req.file);
+    // res.json({ route: 'images/' + req.file.filename});
+    //res.send({ route: 'images/' + req.file.filename});
+    res.send('images/' + req.file.filename);
+})
+
 
 mongoose.Promise = global.Promise;
 //Connecting to database

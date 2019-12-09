@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const User = require('../model/User');
 const key = require('../config/keys').secret;
+const multer = require('multer');
 
 
 /**
@@ -86,23 +87,23 @@ router.post('/login', (req, res) => {
                             console.log("Successfully Login.");
                             return res.send({
                                 status: 200,
-                                mgs:"Successfully logged in!",
+                                mgs: "Successfully logged in!",
                                 success: true,
                                 token: token,
-                                userInfo : user,
+                                userInfo: user,
                                 userType: user.userType
                             });
                         }
                     });
-                
+
                     console.log('exists')
                 } else {
                     return res.send("Password is incorrect!");
                 }
             })
-            .catch((error)=>{
-                console.log(error)
-            })
+                .catch((error) => {
+                    console.log(error)
+                })
         }
     })
 });
@@ -134,7 +135,7 @@ router.get('/profile/:token', (req, res) => {
     })
 
 })
- 
+
 
 
 
@@ -143,12 +144,14 @@ router.put('/account', (req, res) => {
     username = req.body.username;
     newName = req.body.name;
     newPassword = req.body.password;
-    const text = async function() {
+    const text = async function () {
         const update = await User.updateUser(username, newName, bcrypt.hashSync(newPassword, 10))
         res.send(await User.getUserByUsername(username))
     }
     text();
 })
+
+
 
 module.exports = router;
 

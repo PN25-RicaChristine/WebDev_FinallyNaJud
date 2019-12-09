@@ -5,13 +5,21 @@
         <v-list>
           <!-- sidebar -->
           <v-list-item style="text-align:center">
-            <v-img
-              id="image"
-              src="https://randomuser.me/api/portraits/women/85.jpg"
-              height="200"
-              max-width="200"
-            ></v-img>
+            <v-img id="image" :src="'http://localhost:3000/'+filename" height="200" max-width="200"></v-img>
+            <v-spacer></v-spacer>
           </v-list-item>
+                
+              <input
+                type="file"
+                placeholder="Change photo"
+                id="image"
+                @change="setUploadFile($event)"
+                accept="image/*"
+              >
+              <br>
+              <label v-if="loadingFlag === true">Loading...</label>
+              <v-spacer></v-spacer>
+              <v-btn color="secondary" id="postbutton" @click="uploadprofile">Save</v-btn>
           <v-list-item link two-line class="title">
             <v-list-item-content>
               <v-list-item-title>{{name}}</v-list-item-title>
@@ -107,6 +115,8 @@ export default {
   data() {
     AUTH;
     return {
+      loadingFlag: false,
+      filename: "",
       name: AUTH.getUser(),
       files: [],
       description: "",
@@ -146,6 +156,34 @@ export default {
     };
   },
   methods: {
+    setUploadFile(event) {
+      let files = event.target.files || event.dataTransfer.files;
+      if (!files.length) {
+        return false;
+      } else {
+        this.file = files[0];
+        this.createFile(files[0]);
+      }
+    },
+    createFile(file) {
+      let fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+    },
+    // for uploaded post
+    uploadprofile() {
+      let formData = new FormData();
+      formData.append("file", this.file);
+      formData.append("file_url", this.file.name);
+      formData.append("account_id", 1);
+      this.loadingFlag = true;
+      this.axios
+        .post("http://localhost:3000/images/upload/" + 1, formData)
+        .then(response => {
+          console.log(response);
+          this.filename = response.data;
+        });
+    },
+
     handleFileUpload() {
       try {
         this.files[0] = this.$refs.myFiles.files;

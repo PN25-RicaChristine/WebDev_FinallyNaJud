@@ -12,7 +12,7 @@
       <v-card-text>{{post.post_text}}</v-card-text>
 
       <div class="post-container">
-        <v-img :src="`http://localhost:3000/files/${post.post_image}`"></v-img>
+        <v-img :src="`http://localhost:3000/files/${post.post_image}`" height="500px"></v-img>
         
          <!-- <img src="@/../api/uploads/d.png" alt="" style='height="300"'> -->
       </div>

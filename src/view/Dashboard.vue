@@ -153,23 +153,23 @@ export default {
       localStorage.removeItem("Username"),
       localStorage.removeItem("Email"),
       localStorage.removeItem("Password"),
-    axios.get("http://localhost:3000/bloggers/getPost").then(res => {
-      // console.log(res)
-      this.posts = res.data.response;
-      this.sortPosts();
-      this.$store
-        .dispatch("authorizedAsync", localStorage.getItem("jwt"))
-        .then(response => {
-          console.log(response);
-          this.name = response.data.name;
-          this.type = response.data.type;
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      axios.get("http://localhost:3000/bloggers/getPost").then(res => {
+        // console.log(res)
+        this.posts = res.data.response;
+        this.sortPosts();
+        this.$store
+          .dispatch("authorizedAsync", localStorage.getItem("jwt"))
+          .then(response => {
+            console.log(response);
+            this.name = response.data.name;
+            this.type = response.data.type;
+          })
+          .catch(err => {
+            console.log(err);
+          });
 
-      console.log(this.posts);
-    });
+        console.log(this.posts);
+      });
   },
   methods: {
     redirect(pathname) {

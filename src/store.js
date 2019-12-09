@@ -48,6 +48,7 @@ export default new Vuex.Store({
                                 localStorage.setItem("Username", user.username),
                                 localStorage.setItem("Email", user.email),
                                 localStorage.setItem("Password", user.password),
+                                localStorage.setItem("id",user._id)
                                 AUTH.setUser(localStorage.getItem("Name")),
                                 AUTH.setUsername(localStorage.getItem("Username")),
                                 AUTH.setEmail(localStorage.getItem("Email"),
