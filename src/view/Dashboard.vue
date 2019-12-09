@@ -14,7 +14,7 @@
           </v-list-item>
           <v-list-item link two-line class="title">
             <v-list-item-content>
-              <v-list-item-title>{{name}}</v-list-item-title>  
+              <v-list-item-title>{{name}}</v-list-item-title>
               <v-list-item-subtitle>USER</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -109,7 +109,7 @@
 <script>
 import Post from "components/Post.vue";
 import Uploaded_Post from "components/Uploaded_Posts.vue";
-import axios from 'axios';
+import axios from "axios";
 import AUTH from "@/auth";
 export default {
   // name: "UploadPost",
@@ -120,10 +120,8 @@ export default {
   data() {
     AUTH;
     return {
-      name:AUTH.getUser(),
+      name: AUTH.getUser(),
       dialog: false,
-      name:"",
-      type:"",
       post: {
         files: [],
         rating: 0
@@ -151,25 +149,25 @@ export default {
     };
   },
   mounted() {
+    localStorage.removeItem("Name"),
+      localStorage.removeItem("Username"),
+      localStorage.removeItem("Email"),
+      localStorage.removeItem("Password"),
     axios.get("http://localhost:3000/bloggers/getPost").then(res => {
       // console.log(res)
       this.posts = res.data.response;
       this.sortPosts();
       this.$store
-      .dispatch("authorizedAsync", localStorage.getItem("jwt"))
-      .then(response => {
-          console.log(response)
+        .dispatch("authorizedAsync", localStorage.getItem("jwt"))
+        .then(response => {
+          console.log(response);
           this.name = response.data.name;
           this.type = response.data.type;
-        
-      })
-      .catch(err => {
-        console.log(err);
-      });
-      // for(var i = 0;i<this.posts.length;i++){
-      //   let pic = this.posts[i].post_image
-      //   this.posts[i].post_image =require(`@/../api/uploads/${pic}`)
-      // }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+
       console.log(this.posts);
     });
   },
@@ -191,12 +189,14 @@ export default {
       delete axios.defaults.headers.common["Authorization"];
       this.$router.push("/login");
     }
-  },  mounted() {
-    axios.get("http://localhost:3000/bloggers/getPost").then(res => {    
-      this.posts = res.data.response;
-      this.sortPosts();
-      console.log(this.posts);
-    });
   }
+  // ,
+  // mounted() {
+  //   axios.get("http://localhost:3000/bloggers/getPost").then(res => {
+  //     this.posts = res.data.response;
+  //     this.sortPosts();
+  //     console.log(this.posts);
+  //   });
+  // }
 };
 </script>

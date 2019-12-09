@@ -92,7 +92,6 @@ export default new Vuex.Store({
                     .then(resp => {
                         const token = localStorage.getItem('jwt')
                         const user = resp.data
-<<<<<<< HEAD
                         console.log(resp)
                         sessionStorage.setItem("Name", user.name),
                             sessionStorage.setItem("Username", user.username),
@@ -101,11 +100,6 @@ export default new Vuex.Store({
                         if (token) {
                             localStorage.setItem('jwt', token)
                         }
-=======
-                        // if (token) {
-                        //     localStorage.setItem('jwt', token)
-                        // }
->>>>>>> 414b13d0a7bbdbcf8d692de0741db20221af8b73
                         axios.defaults.headers.common['Authorization'] = token
                         commit('auth_success', token, user)
                         resolve(resp)
