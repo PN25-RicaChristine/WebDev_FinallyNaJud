@@ -8,18 +8,18 @@
             <v-img id="image" :src="'http://localhost:3000/'+filename" height="200" max-width="200"></v-img>
             <v-spacer></v-spacer>
           </v-list-item>
-                
-              <input
-                type="file"
-                placeholder="Change photo"
-                id="image"
-                @change="setUploadFile($event)"
-                accept="image/*"
-              >
-              <br>
-              <label v-if="loadingFlag === true">Loading...</label>
-              <v-spacer></v-spacer>
-              <v-btn color="secondary" id="postbutton" @click="uploadprofile">Save</v-btn>
+
+          <input
+            type="file"
+            placeholder="Change photo"
+            id="image"
+            @change="setUploadFile($event)"
+            accept="image/*"
+          />
+          <br />
+          <label v-if="loadingFlag === true">Loading...</label>
+          <v-spacer></v-spacer>
+          <v-btn color="secondary" id="postbutton" @click="uploadprofile">Save</v-btn>
           <v-list-item link two-line class="title">
             <v-list-item-content>
               <v-list-item-title>{{name}}</v-list-item-title>
@@ -39,19 +39,20 @@
             </v-list-item-content>
           </v-list-item>
         </v-list>
+        <v-btn @click="logout">Logout</v-btn>
       </v-col>
       <v-col cols="8">
         <!-- Create Post -->
 
         <div class="uploaded_post">
           <div>
-            <br>
-            <br>
-            <Post v-on:uploaded="updatePosts"/>
+            <br />
+            <br />
+            <Post v-on:uploaded="updatePosts" />
           </div>
         </div>
         <!-- Posts -->
-        <Uploaded_Post :posts="this.posts"/>
+        <Uploaded_Post :posts="this.posts" />
       </v-col>
     </v-row>
   </div>
@@ -122,37 +123,8 @@ export default {
       description: "",
       items: [
         { href: "/bloggerdashboard", title: "Home", icon: "dashboard" },
-        { href: "/myaccount", title: "My Account", icon: "account_circle" },
-        { href: "/login", title: "Logout", icon: "logout", click: "logout" }
+        { href: "/myaccount", title: "My Account", icon: "account_circle" }
       ],
-      posts: [
-        {
-          id: 1,
-          files: require("@/../api/uploads/d.png"),
-          description:
-            "Visit ten places on our planet that are undergoing the biggest changes today.",
-          rating: 0,
-          category: ""
-        },
-        {
-          id: 2,
-          files:
-            "https://www.travelingcebu.com/images/north-sky-beach-resort.jpg",
-          description:
-            "Visit ten places on our planet that are undergoing the biggest changes today.",
-          rating: 0,
-          category: ""
-        },
-        {
-          id: 3,
-          files:
-            "https://www.travelingcebu.com/images/north-sky-beach-resort.jpg",
-          description:
-            "Visit ten places on our planet that are undergoing the biggest changes today.",
-          rating: 0,
-          category: ""
-        }
-      ]
     };
   },
   methods: {
@@ -212,13 +184,17 @@ export default {
       this.posts.sort((a, b) => (a.date_time < b.date_time ? 1 : -1));
     },
     logout: function() {
-      localStorage.setItem("Name", " "),
-        localStorage.setItem("Username", " "),
-        localStorage.setItem("Email", " ");
+      AUTH.setUser(null);
+      sessionStorage.clear();
+      localStorage.clear();
+      localStorage.removeItem("jwt");
+      delete axios.defaults.headers.common["Authorization"];
+      this.$router.push("/login");
     }
   },
   mounted() {
-    localStorage.removeItem("Name"),
+    localStorage.removeItem("id"),
+      localStorage.removeItem("Name"),
       localStorage.removeItem("Username"),
       localStorage.removeItem("Email"),
       localStorage.removeItem("Password"),

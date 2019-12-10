@@ -140,7 +140,7 @@ export default {
       img: require("@/assets/back.jpg"),
       name: AUTH.getUser(),
       username: AUTH.getUsername(),
-      password: "",
+      password: AUTH.getPassword(),
       email: AUTH.getEmail(),
       modal: false,
       dialog: false,

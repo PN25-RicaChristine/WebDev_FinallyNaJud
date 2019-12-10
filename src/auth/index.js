@@ -1,4 +1,5 @@
 export default {
+    user_id: null,
     user: null,
     username: null,
     password: null,
@@ -6,6 +7,9 @@ export default {
     registeredUser: [],
     setUser(user) {
         this.user = user
+    },
+    setID(id) {
+        this.user_id = id
     },
     setUsername(username) {
         this.username = username;
@@ -15,6 +19,9 @@ export default {
     },
     setEmail(email) {
         this.email = email;
+    },
+    getID(){
+        return this.user_id;
     }, getEmail() {
         return this.email;
     },

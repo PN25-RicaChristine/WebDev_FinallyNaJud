@@ -1,3 +1,17 @@
+import AUTH from "@/auth";
+let beforeEnter = (to, from, next) => {
+    if(to.meta.tokenRequired===true){
+        if(AUTH.user != null){
+            next()
+
+        }else{
+            next({path:'/login'})
+        }
+    }else{
+        next()
+    }
+}
+
 var devRoutes = []
 let app = require('router/index.js')
 devRoutes = devRoutes.concat(app.default.routes)
