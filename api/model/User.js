@@ -23,7 +23,11 @@ const userSchema = new Schema({
     userType: {
         type: String,
         required: true
-    }
+    },
+    profile_image: {
+        type: String,
+        required: false
+    },
 });
 
 userSchema.statics.updateUser = async function(username, newname, newPassword) {

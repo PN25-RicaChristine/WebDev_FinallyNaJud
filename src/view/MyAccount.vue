@@ -129,17 +129,19 @@
 
 <script>
 import $ from "jquery";
+import AUTH from "@/auth";
 export default {
   components: {
     //   EditProfile
   },
   data() {
+    AUTH;
     return {
       img: require("@/assets/back.jpg"),
-      name: sessionStorage.getItem("Name"),
-      username: sessionStorage.getItem("Username"),
-      password: sessionStorage.getItem("Password"),
-      email: sessionStorage.getItem("Email"),
+      name: AUTH.getUser(),
+      username: AUTH.getUsername(),
+      password: AUTH.getPassword(),
+      email: AUTH.getEmail(),
       modal: false,
       dialog: false,
       EditPassword: "",

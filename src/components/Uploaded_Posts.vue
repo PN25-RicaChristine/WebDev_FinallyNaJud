@@ -12,7 +12,7 @@
       <v-card-text>{{post.post_text}}</v-card-text>
 
       <div class="post-container">
-        <v-img :src="`http://localhost:3000/files/${post.post_image}`" height="300"></v-img>
+        <v-img :src="`http://localhost:3000/files/${post.post_image}`" height="500px"></v-img>
         
          <!-- <img src="@/../api/uploads/d.png" alt="" style='height="300"'> -->
       </div>
@@ -23,9 +23,10 @@
         <v-chip-group multiple active-class="primary--text">
           <v-chip v-for="tag in tags" :key="tag">
             <v-icon v-for="tag in tags" :key="tag">{{ tag }}</v-icon>
+            <label for="">{{count}}</label>
           </v-chip>
 
-          <v-chip flat>
+          <v-chip flat v-show="$route.path === '/dashboard'? true : false">
             <v-btn text icon>
               <v-icon @click="dialog = !dialog">mdi-comment</v-icon>
             </v-btn>
@@ -35,7 +36,7 @@
         <!-- Comment actions -->
         <v-spacer></v-spacer>
         <!-- Ratings -->
-        <div class="text-center">
+        <div class="text-center" v-show="$route.path === '/dashboard'? true : false">
           <v-rating v-model="post.rating" background-color="yellow" color="yellow" x-large></v-rating>
         </div>
         <!-- Comment Dialog -->
@@ -67,6 +68,7 @@ export default {
 
   data() {
     return {
+      count :0,
       comment: "",
       // files: [],
       dialog: false,
