@@ -1,10 +1,17 @@
 export default {
     user_id: null,
+    type: null,
     user: null,
     username: null,
     password: null,
     email: null,
     registeredUser: [],
+    setType(type) {
+        this.type = type
+    },
+    getType() {
+        return this.type
+    },
     setUser(user) {
         this.user = user
     },
@@ -20,7 +27,7 @@ export default {
     setEmail(email) {
         this.email = email;
     },
-    getID(){
+    getID() {
         return this.user_id;
     }, getEmail() {
         return this.email;

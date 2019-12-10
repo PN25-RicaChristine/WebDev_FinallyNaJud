@@ -97,7 +97,7 @@ export default {
             .then(res => {
               this.loading = false;
               this.dialog = false;
-              // window.location.reload()
+              //window.location.reload()
               console.log(res);
               this.$emit("uploaded" ,res.data)
             });

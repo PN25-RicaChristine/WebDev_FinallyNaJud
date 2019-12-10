@@ -15,7 +15,7 @@
           <v-list-item link two-line class="title">
             <v-list-item-content>
               <v-list-item-title>{{name}}</v-list-item-title>
-              <v-list-item-subtitle>USER</v-list-item-subtitle>
+              <v-list-item-subtitle>{{type}}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -121,6 +121,7 @@ export default {
     AUTH;
     return {
       name: AUTH.getUser(),
+      type:AUTH.getType(),
       dialog: false,
       post: {
         files: [],
@@ -192,10 +193,6 @@ export default {
           .catch(err => {
             console.log(err);
           });
-        // for(var i = 0;i<this.posts.length;i++){
-        //   let pic = this.posts[i].post_image
-        //   this.posts[i].post_image =require(`@/../api/uploads/${pic}`)
-        // }
         console.log(this.posts);
       });
   }
