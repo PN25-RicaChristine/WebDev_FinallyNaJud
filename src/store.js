@@ -44,6 +44,8 @@ export default new Vuex.Store({
                             const token = resp.data.token
                             const user = resp.data.userInfo
                             console.log(user)
+
+                
                             localStorage.setItem("Name", user.name),
                                 localStorage.setItem("Username", user.username),
                                 localStorage.setItem("Email", user.email),
@@ -88,19 +90,19 @@ export default new Vuex.Store({
                     })
             })
         },
-        updateSync({ commit }, user) {
+       updateSync({ commit }, user) {
             return new Promise((resolve, reject) => {
                 commit('auth_request')
                 console.log(user)
-                axios.put('http://localhost:3000/users/account', user)
+                axios.put('http://localhost:3000/api/users/account', user)
                     .then(resp => {
                         const token = localStorage.getItem('jwt')
                         const user = resp.data
                         console.log(resp)
-                        sessionStorage.setItem("Name", user.name),
-                            sessionStorage.setItem("Username", user.username),
-                            sessionStorage.setItem("Email", user.email),
-                            sessionStorage.setItem("Password", user.password)
+                        localStorage.setItem("Name", user.name),
+                        localStorage.setItem("Username", user.username),
+                        localStorage.setItem("Email", user.email),
+                        localStorage.setItem("Password", user.password)
                         if (token) {
                             localStorage.setItem('jwt', token)
                         }
@@ -116,6 +118,7 @@ export default new Vuex.Store({
                     })
             })
         },
+
         authorizedAsync({ commit }, token) {
             return new Promise((resolve, reject) => {
                 commit('auth_request')

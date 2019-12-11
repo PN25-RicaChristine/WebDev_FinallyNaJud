@@ -2,7 +2,12 @@ import AUTH from "@/auth";
 let beforeEnter = (to, from, next) => {
     if (to.meta.tokenRequired === true) {
         if (AUTH.user != null) {
-            next()
+            if (AUTH.type == "Blogger") {
+                next({ path: '/bloggerdashboard' })
+            } else {
+                next({ path: '/dashboard' })
+            }
+            next({ path: '/myaccount' })
         } else {
             next({ path: '/login' })
         }

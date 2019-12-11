@@ -7,12 +7,10 @@
           <v-list-item style="text-align:center">
             <v-img
               id="image"
-              :src="'http://localhost:3000/'+filename"
-              style="border:1px solid orange"
+              :src="`http://localhost:3000/files/${myImage}`"
               height="200"
               max-width="200"
             ></v-img>
-            <v-spacer></v-spacer>
           </v-list-item>
           <v-list-item link two-line class="title">
             <v-list-item-content>
@@ -100,7 +98,6 @@
 import Post from "components/Post.vue";
 import Uploaded_Post from "components/Uploaded_Posts.vue";
 import axios from "axios";
-import AUTH from "@/auth";
 
 export default {
   components: {
@@ -108,24 +105,48 @@ export default {
     Post
   },
   data() {
-    AUTH;
     return {
-      loadingFlag: false,
-      filename: "",
-      name: AUTH.getUser(),
-      type: AUTH.getType(),
       files: [],
+      name: "",
+      myImage: "",
+      type: "",
       description: "",
       items: [
         { href: "/bloggerdashboard", title: "Home", icon: "dashboard" },
         { href: "/myaccount", title: "My Account", icon: "account_circle" }
+      ],
+      posts: [
+        {
+          id: 1,
+          files:
+            "https://www.travelingcebu.com/images/north-sky-beach-resort.jpg",
+          description:
+            "Visit ten places on our planet that are undergoing the biggest changes today.",
+          rating: 0,
+          category: ""
+        },
+        {
+          id: 2,
+          files:
+            "https://www.travelingcebu.com/images/north-sky-beach-resort.jpg",
+          description:
+            "Visit ten places on our planet that are undergoing the biggest changes today.",
+          rating: 0,
+          category: ""
+        },
+        {
+          id: 3,
+          files:
+            "https://www.travelingcebu.com/images/north-sky-beach-resort.jpg",
+          description:
+            "Visit ten places on our planet that are undergoing the biggest changes today.",
+          rating: 0,
+          category: ""
+        }
       ]
     };
   },
   methods: {
-     changeColor() {
-      this.changeColor = "deep-orange";
-    },
     handleFileUpload() {
       try {
         this.files[0] = this.$refs.myFiles.files;
@@ -146,7 +167,6 @@ export default {
     },
     updatePosts(post) {
       console.log(post);
-
       this.posts.push(post);
       this.sortPosts();
     },
@@ -154,40 +174,37 @@ export default {
       this.posts.sort((a, b) => (a.date_time < b.date_time ? 1 : -1));
     },
     logout: function() {
-      AUTH.setUser(null);
       sessionStorage.clear();
-      localStorage.clear();
       localStorage.removeItem("jwt");
       delete axios.defaults.headers.common["Authorization"];
       this.$router.push("/login");
     }
   },
   mounted() {
-    localStorage.removeItem("id"),
-      localStorage.removeItem("Name"),
-      localStorage.removeItem("Username"),
-      localStorage.removeItem("Email"),
-      localStorage.removeItem("Password"),
-      axios.get("http://localhost:3000/bloggers/getPost").then(res => {
-        // console.log(res)
-        this.posts = res.data.response;
-        this.sortPosts();
-        this.$store
-          .dispatch("authorizedAsync", localStorage.getItem("jwt"))
-          .then(response => {
-            console.log(response);
-            this.name = response.data.name;
-            this.type = response.data.type;
-          })
-          .catch(err => {
-            console.log(err);
-          });
-        // for(var i = 0;i<this.posts.length;i++){
-        //   let pic = this.posts[i].post_image
-        //   this.posts[i].post_image =require(`@/../api/uploads/${pic}`)
-        // }
-        console.log(this.posts);
-      });
+    axios.get("http://localhost:3000/bloggers/getPost").then(res => {
+      // console.log(res)
+      this.posts = res.data.response;
+      this.sortPosts();
+      console.log(res.data.response.post_image);
+
+      this.$store
+        .dispatch("authorizedAsync", localStorage.getItem("jwt"))
+        .then(response => {
+          console.log(response);
+          this.name = response.data.name;
+          this.type = response.data.type;
+          //this.myImage = response.data.profile_pic;
+          console.log(response.data.profile_pic);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      // for(var i = 0;i<this.posts.length;i++){
+      //   let pic = this.posts[i].post_image
+      //   this.posts[i].post_image =require(`@/../api/uploads/${pic}`)
+      // }
+      console.log(this.posts);
+    });
   }
 };
 </script>

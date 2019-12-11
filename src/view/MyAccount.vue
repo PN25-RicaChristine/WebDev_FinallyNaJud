@@ -4,13 +4,13 @@
       <v-card max-width="800" class="mx-auto">
         <v-row class="mb-6" no-gutters>
           <v-col sm="5" md="6">
-            <v-card class="pa-2" id="card2" >
+            <v-card class="pa-2" id="card2">
               <!-- <v-card height="20vh" max-width="20hv"> -->
-                <center>
-                  <v-img :src="img" class="picture" @click="$refs.file.click()" dark></v-img>
-                  <input ref="file" type="file" style="display:none" @change="onFileChange()">
-                </center>
-              </v-card>
+              <center>
+                <v-img :src="img" class="picture" @click="$refs.file.click()" dark></v-img>
+                <input ref="file" type="file" style="display:none" @change="onFileChange()" />
+              </center>
+            </v-card>
             <!-- </v-card> -->
           </v-col>
           <v-col sm="5" offset-sm="2" md="6" offset-md="0">
@@ -55,8 +55,8 @@
                 </v-list-item>
 
                 <v-divider inset></v-divider>
-                <br>
-                <br>
+                <br />
+                <br />
               </v-list>
               <v-btn class="ma-2" v-on="on" tile outlined color="success">
                 <v-icon left>mdi-pencil</v-icon>Edit
@@ -84,12 +84,7 @@
               <v-text-field label="Name*" v-model="EditName" required></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-text-field
-                label="Password*"
-                v-model="EditPassword"
-                type="password"
-                required
-              ></v-text-field>
+              <v-text-field label="Password*" v-model="EditPassword" type="password" required></v-text-field>
             </v-col>
           </v-row>
         </v-container>
@@ -122,26 +117,24 @@
 #card1 {
   margin-top: 60%;
 }
-.card2{
-  width:20px;
+.card2 {
+  width: 20px;
 }
 </style>
 
 <script>
 import $ from "jquery";
-import AUTH from "@/auth";
 export default {
   components: {
     //   EditProfile
   },
   data() {
-    AUTH;
     return {
       img: require("@/assets/back.jpg"),
-      name: AUTH.getUser(),
-      username: AUTH.getUsername(),
-      password: AUTH.getPassword(),
-      email: AUTH.getEmail(),
+      name: localStorage.getItem("Name"),
+      username: localStorage.getItem("Username"),
+      password: localStorage.getItem("Password"),
+      email: localStorage.getItem("Email"),
       modal: false,
       dialog: false,
       EditPassword: "",
@@ -152,17 +145,18 @@ export default {
   methods: {
     UpdateAccount: function() {
       var data = {
-        username: sessionStorage.getItem("Username"),
+        username: localStorage.getItem("Username"),
         name: this.EditName,
         password: this.EditPassword
       };
-      console.log(data)
-      this.dialog = false;
+      console.log(data);
       this.$store
         .dispatch("updateSync", data)
-        .then(response => {
-          if (response) {
+        .then(() => {
+          if (localStorage.getItem("id") == "User") {
             this.$router.push("dashboard");
+          } else {
+            this.$router.push("bloggerdashboard");
           }
         })
         .catch(err => console.log(err));
@@ -172,7 +166,11 @@ export default {
       this.img = URL.createObjectURL(this.file);
     },
     cancel() {
-      this.$router.push("dashboard");
+      if (localStorage.getItem("id") == "User") {
+        this.$router.push("dashboard");
+      } else {
+        this.$router.push("bloggerdashboard");
+      }
     },
     onSelect() {
       const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
