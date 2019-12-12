@@ -1,5 +1,5 @@
 <template>
-  <v-img class="white--text align-end" height="100px" id="image" src="@/assets/back1.jpg">
+  <v-img class="white--text align-end" height="100px" id="image" src="https://raw.githubusercontent.com/PN25-RicaChristine/WebDev_FinallyNaJud/master/src/assets/back1.jpg">
     <v-card id="card" class="mx-auto" max-width="500">
       <div id="title">
         <v-avatar id="circle" size="150">

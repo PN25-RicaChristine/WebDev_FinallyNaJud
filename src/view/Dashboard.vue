@@ -9,6 +9,7 @@
               id="image"
               height="200"
               max-width="200"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Emblem-person-orange.svg/1024px-Emblem-person-orange.svg.png"
             ></v-img>
           </v-list-item>
           <v-list-item link two-line class="title">
@@ -36,20 +37,20 @@
         <!-- Tinuod nga post ni diria -->
         <div class="uploaded_post">
           <div>
-            <br>
-            <br>
-            <Post @upload_post="upload_post"/>
+            <br />
+            <br />
+            <Post @upload_post="upload_post" />
           </div>
         </div>
 
         <!-- Posts -->
         <!-- <div v-for="(item, index) in this.createPost" :key="index"> -->
-        <Uploaded_Post :posts="this.posts"/>
+        <Uploaded_Post :posts="this.posts" />
 
         <!-- Comment Dialog here!! -->
         <v-dialog v-model="dialog" max-width="500px">
           <v-card class="px-2">
-            <br>
+            <br />
             <v-text-field outlined label="Comment here..."></v-text-field>
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -108,18 +109,21 @@
 <script>
 import Post from "components/Post.vue";
 import Uploaded_Post from "components/Uploaded_Posts.vue";
-import axios from 'axios'
+import axios from "axios";
 export default {
   // name: "UploadPost",
   components: {
     Uploaded_Post,
     Post
   },
+  props: {
+    category: String
+  },
   data() {
     return {
       dialog: false,
-      name:"",
-      type:"",
+      name: "",
+      type: "",
       post: {
         files: [],
         rating: 0
@@ -151,7 +155,7 @@ export default {
       // console.log(res)
       this.posts = res.data.response;
       this.sortPosts();
-      
+
       // for(var i = 0;i<this.posts.length;i++){
       //   let pic = this.posts[i].post_image
       //   this.posts[i].post_image =require(`@/../api/uploads/${pic}`)
@@ -161,16 +165,25 @@ export default {
     this.$store
       .dispatch("authorizedAsync", localStorage.getItem("jwt"))
       .then(response => {
-          console.log(response)
-          this.name = response.data.name;
-          this.type = response.data.type;
-        
+        console.log(response);
+        this.name = response.data.name;
+        this.type = response.data.type;
       })
       .catch(err => {
         console.log(err);
       });
   },
   methods: {
+    retrieveCat(cat) {
+     
+      axios.get("http://localhost:3000/bloggers/getCategory/"+cat)
+      .then(res => {
+        this.posts = res.data.response;
+      }).catch(err => {
+      
+        console.log(err);
+      })
+    },
     redirect(pathname) {
       this.$router.push({ path: pathname });
     },
@@ -183,7 +196,7 @@ export default {
       console.log("yo");
     },
     updatePosts(post) {
-      console.log(post);  
+      console.log(post);
       this.posts.push(post);
       this.sortPosts();
     },
@@ -192,9 +205,15 @@ export default {
     },
     logout: function() {
       sessionStorage.clear();
+      localStorage.clear();
       localStorage.removeItem("jwt");
       delete axios.defaults.headers.common["Authorization"];
       this.$router.push("/login");
+    }
+  },
+  watch: {
+    category(val) {
+      this.retrieveCat(val);
     }
   }
 };

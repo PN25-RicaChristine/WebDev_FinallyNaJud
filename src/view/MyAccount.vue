@@ -130,33 +130,49 @@ export default {
   },
   data() {
     return {
-      img: require("@/assets/back.jpg"),
-      name: localStorage.getItem("Name"),
-      username: localStorage.getItem("Username"),
-      password: localStorage.getItem("Password"),
-      email: localStorage.getItem("Email"),
+      img: 'https://cdn.business2community.com/wp-content/uploads/2014/08/My_profile-orange-300x300.png',
+      name: "",
+      username: "",
+      password: "",
+      email: "",
       modal: false,
       dialog: false,
       EditPassword: "",
       EditName: ""
     };
   },
-
+  mounted() {
+    this.$store
+      .dispatch("authorizedAsync", localStorage.getItem("jwt"))
+      .then(response => {
+        console.log(response);
+        this.name = response.data.name;
+        this.email = response.data.email;
+        this.username = response.data.username;
+        this.password = response.data.password;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
   methods: {
     UpdateAccount: function() {
       var data = {
-        username: localStorage.getItem("Username"),
         name: this.EditName,
-        password: this.EditPassword
+        password: this.EditPassword,
+        token: localStorage.getItem("jwt")
       };
       console.log(data);
+      this.dialog = false;
       this.$store
         .dispatch("updateSync", data)
-        .then(() => {
-          if (localStorage.getItem("id") == "User") {
-            this.$router.push("dashboard");
-          } else {
-            this.$router.push("bloggerdashboard");
+        .then(response => {
+          if (response) {
+            if (response.data.type == "Blogger") {
+              this.$router.push("/bloggerdashboard");
+            } else {
+              this.$router.push("/dashboard");
+            }
           }
         })
         .catch(err => console.log(err));

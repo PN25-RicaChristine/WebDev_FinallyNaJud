@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <Header/>
-    <router-view></router-view>
+    <Header @searchCat="getCat" />
+    <router-view :category="chosenCategory"></router-view>
   </v-app>
 </template>
 
@@ -12,6 +12,13 @@ export default {
   name: "app",
   components: {
     Header,
+  },data() {
+    return {
+    chosenCategory:"", 
+  }},methods: {
+    getCat(val) {
+      this.chosenCategory = val;
+    }
   }
 };
 </script>

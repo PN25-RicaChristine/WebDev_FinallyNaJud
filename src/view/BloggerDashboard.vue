@@ -7,7 +7,7 @@
           <v-list-item style="text-align:center">
             <v-img
               id="image"
-              :src="`http://localhost:3000/files/${myImage}`"
+              src="http://files.softicons.com/download/internet-icons/web-2.0-user-icons-by-icontexto/png/256/icontexto-user-web20-blogger.png"
               height="200"
               max-width="200"
             ></v-img>
@@ -104,11 +104,14 @@ export default {
     Uploaded_Post,
     Post
   },
+  props: {
+    category: String,
+  },
   data() {
     return {
       files: [],
       name: "",
-      myImage: "",
+      // myImage: "",
       type: "",
       description: "",
       items: [
@@ -146,7 +149,23 @@ export default {
       ]
     };
   },
+  watch: {
+    category(val) {
+
+      this.retrieveCat(val);
+    }
+  },
   methods: {
+    retrieveCat(cat) {
+      
+      axios.get("http://localhost:3000/bloggers/getCategory/"+cat)
+      .then(res => {
+        this.posts = res.data.response;
+      }).catch(err => {
+   
+        console.log(err);
+      })
+    },
     handleFileUpload() {
       try {
         this.files[0] = this.$refs.myFiles.files;
@@ -175,6 +194,7 @@ export default {
     },
     logout: function() {
       sessionStorage.clear();
+      localStorage.clear();
       localStorage.removeItem("jwt");
       delete axios.defaults.headers.common["Authorization"];
       this.$router.push("/login");

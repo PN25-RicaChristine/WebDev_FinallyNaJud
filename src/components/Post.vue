@@ -23,6 +23,8 @@
           <v-card-title id="title">Create Post</v-card-title>
         </div>
         <div>
+          <v-select :items="items" v-model="category" label="Select Category" outlined max-width="30px"></v-select>
+
           <v-card-text>
             <div id="text">
               <v-textarea v-model="description" outlined name="input-7-4" label="Description..."></v-textarea>
@@ -63,9 +65,11 @@ export default {
   data() {
     AUTH;
     return {
+      items: ['Hotel', 'Beach', 'Historical', 'Mountain'],
       user_id: jwt_decode(localStorage.getItem("jwt"))._id,
       description: null,
       imageData: null,
+      category:"",
       id: 0,
       dialog: false,
       loading: false
@@ -80,9 +84,10 @@ export default {
       this.loading = true;
       console.log(this.imageData.name);
       let datas = {
-        post_blogger: AUTH.getUser(),
+        post_blogger: localStorage.getItem("Name"),
         post_text: this.description,
-        post_image: this.imageData.name
+        post_image: this.imageData.name,
+        post_category:this.category
       };
 
       let formData = new FormData();
@@ -99,7 +104,7 @@ export default {
               this.dialog = false;
               //window.location.reload()
               console.log(res);
-              this.$emit("uploaded" ,res.data)
+              this.$emit("uploaded", res.data);
             });
         })
         .catch(err => {

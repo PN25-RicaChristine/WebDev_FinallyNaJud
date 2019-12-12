@@ -9,6 +9,9 @@ const postSchema = new Schema({
     post_blogger: {
         type: String,
         required: true
+    },post_category: {
+        type: String,
+        required: true
     },
     post_text: {
         type: String,

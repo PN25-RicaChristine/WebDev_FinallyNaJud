@@ -120,38 +120,99 @@ router.post('/login', (req, res) => {
 // );
 
 router.get('/profile/:token', (req, res) => {
-    console.log(req.params)
     let token = req.params.token
     jwt.verify(token, key, (err, decode) => {
         if (err) {
             res.status(401).send(err)
         } else {
             res.json({
+                id: decode._id,
                 name: decode.name,
-                type: decode.userType
+                type: decode.userType,
+                username: decode.username,
+                email: decode.email
             })
         }
-
     })
-
 })
-
 
 
 
 router.put('/account', (req, res) => {
-    console.log(req.body)
-    username = req.body.username;
-    newName = req.body.name;
-    newPassword = req.body.password;
-    const text = async function () {
-        const update = await User.updateUser(username, newName, bcrypt.hashSync(newPassword, 10))
-        res.send(await User.getUserByUsername(username))
-    }
-    text();
+    // console.log("Token is:" + req.body.token);
+    // console.log("New name is: " + req.body.name);
+    let token = req.body.token;
+    let name = req.body.name;
+    let reqPass = req.body.password;
+    console.log(reqPass);
+
+    jwt.verify(token, key, (err, decode) => {
+        if (err) {
+            res.status(401).send(err)
+        } else {
+            const payload = {
+                _id: decode._id,
+                name: name,
+                username: decode.username,
+                email: decode.email,
+                password: reqPass,
+                userType: decode.userType,
+            }
+
+            bcrypt.genSalt(10, (err, salt) => {
+                bcrypt.hash(payload.password, salt, (err, hash) => {
+                    if (err) {
+                        throw err;
+                    } else {
+                        payload.password = hash;
+                        console.log("New name is: " + name)
+                        User.findByIdAndUpdate(decode._id, { $set: { name: name, password: payload.password } }, { new: true }, (err, saved) => {
+                            if (err) {
+                                console.log(err);
+                                res.status(500).send({
+                                    success: false,
+                                    token: token
+                                })
+                            } else {
+                                jwt.sign(payload, key, {
+                                    expiresIn: 604800
+                                }, (err, token1) => {
+                                    if (err) {
+                                        res.status(400).send({
+                                            success: false,
+                                            msg: "Error"
+                                        })
+                                    }
+                                    console.log("New token is: " + token1)
+                                    res.status(200).send({
+                                        success: true,
+                                        token: token1
+                                    })
+                                    // console.log(token)
+                                    // res.status(200).send({
+                                    //     success: true,
+                                    //     token: token
+                                    // })
+
+                                })
+
+
+                            }
+                        })
+
+                    }
+                })
+
+            })
+
+        }
+
+    })
 })
 
+    
+    
 
 
-module.exports = router;
 
+    module.exports = router;

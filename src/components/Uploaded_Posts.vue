@@ -2,19 +2,26 @@
   <div>
     <v-card max-width="800" v-for="(post,x) in posts" :key="x" class="mx-auto" id="post">
       <v-list-item>
-        <v-list-item-avatar color="grey"></v-list-item-avatar>
+        <v-list-item-avatar color="grey">
+          <v-img
+            id="image"
+            src="http://files.softicons.com/download/internet-icons/web-2.0-user-icons-by-icontexto/png/256/icontexto-user-web20-blogger.png"
+            height="30"
+            max-width="30"
+          ></v-img>
+        </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title class="headline">{{post.post_blogger}}</v-list-item-title>
-          <v-list-item-subtitle>{{post.date_time}}</v-list-item-subtitle>
+          <v-list-item-subtitle>{{post.date_time+" | "+post.hour+":"+post.minutes}}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-
+      <v-card-text><b>CATEGORY:</b>   {{post.post_category}}</v-card-text>
       <v-card-text>{{post.post_text}}</v-card-text>
 
       <div class="post-container">
         <v-img :src="`http://localhost:3000/files/${post.post_image}`" height="500px"></v-img>
-        
-         <!-- <img src="@/../api/uploads/d.png" alt="" style='height="300"'> -->
+
+        <!-- <img src="@/../api/uploads/d.png" alt="" style='height="300"'> -->
       </div>
 
       <!-- Like actions -->
@@ -23,7 +30,7 @@
         <v-chip-group multiple active-class="primary--text">
           <v-chip v-for="tag in tags" :key="tag">
             <v-icon v-for="tag in tags" :key="tag">{{ tag }}</v-icon>
-            <label for="">{{count}}</label>
+      
           </v-chip>
 
           <v-chip flat v-show="$route.path === '/dashboard'? true : false">
@@ -68,7 +75,7 @@ export default {
 
   data() {
     return {
-      count :0,
+     
       comment: "",
       // files: [],
       dialog: false,
@@ -76,8 +83,6 @@ export default {
     };
   },
 
-  methods: {},
-
-  
+  methods: {}
 };
 </script>

@@ -2,7 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import swal from "sweetalert";
-import AUTH from "@/auth";
+
+import jwt_decode from "jwt-decode";
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -44,21 +45,6 @@ export default new Vuex.Store({
                             const token = resp.data.token
                             const user = resp.data.userInfo
                             console.log(user)
-
-                
-                            localStorage.setItem("Name", user.name),
-                                localStorage.setItem("Username", user.username),
-                                localStorage.setItem("Email", user.email),
-                                localStorage.setItem("Password", user.password),
-                                localStorage.setItem("Type", user.userType),
-                                localStorage.setItem("id", user._id),
-                                AUTH.setType(localStorage.getItem("Type")),
-                                AUTH.setID(localStorage.getItem("id")),
-                                AUTH.setUser(localStorage.getItem("Name")),
-                                AUTH.setUsername(localStorage.getItem("Username")),
-                                AUTH.setEmail(localStorage.getItem("Email"),
-                                    AUTH.setPassword(localStorage.getItem("Password"))
-                                )
                             if (token) {
                                 localStorage.setItem('jwt', token)
                             }
@@ -90,20 +76,20 @@ export default new Vuex.Store({
                     })
             })
         },
-       updateSync({ commit }, user) {
+        updateSync({ commit },data) {
             return new Promise((resolve, reject) => {
                 commit('auth_request')
-                console.log(user)
-                axios.put('http://localhost:3000/api/users/account', user)
+                console.log(data)
+                axios.put('http://localhost:3000/users/account',data)
                     .then(resp => {
-                        const token = localStorage.getItem('jwt')
-                        const user = resp.data
-                        console.log(resp)
-                        localStorage.setItem("Name", user.name),
-                        localStorage.setItem("Username", user.username),
-                        localStorage.setItem("Email", user.email),
-                        localStorage.setItem("Password", user.password)
+                        const token = resp.data.token
+                        const user = jwt_decode(token)
+                        console.log(token);
+                        console.log(user);
+                        
                         if (token) {
+                            console.log("new token");
+                            
                             localStorage.setItem('jwt', token)
                         }
                         axios.defaults.headers.common['Authorization'] = token

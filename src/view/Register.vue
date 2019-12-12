@@ -2,7 +2,7 @@
   <v-img
     class="white--text align-end"
     height="100px"
-    src="@/assets/back1.jpg"
+    src="https://raw.githubusercontent.com/PN25-RicaChristine/WebDev_FinallyNaJud/master/src/assets/back1.jpg"
   >
     <div>
       <v-card
